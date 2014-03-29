@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/var/www/ZendProject/application/views/scripts/thread/list.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/category/ajax-job.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/thread/read.phtml</file>
+            <file>file:/var/www/ZendProject/application/Bootstrap.php</file>
+            <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
+            <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/admin-tools.phtml</file>
+            <file>file:/var/www/ZendProject/application/models/User.php</file>
+            <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
+            <file>file:/var/www/ZendProject/application/controllers/CategoryController.php</file>
+            <file>file:/var/www/ZendProject/application/configs/application.ini</file>
+            <file>file:/var/www/ZendProject/application/controllers/UserController.php</file>
+            <file>file:/var/www/ZendProject/application/models/Thread.php</file>
+            <file>file:/var/www/ZendProject/application/models/Forum.php</file>
+        </group>
+    </open-files>
+</project-private>

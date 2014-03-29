@@ -1,0 +1,30 @@
+ <?php if ($this->pageCount): ?>
+    <div class="paginationControl">
+     <!-- Previous page link -->
+    <?php if (isset($this->previous)): ?>
+     <a onclick="getThreads(<?php echo $this->previous; ?>)">
+     Previous
+      </a> <span class="bar"> | </span>
+      <?php else: ?>
+      <span class="disabled"> Previous</span> <span class="bar"> | </span>
+<?php endif; ?>
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a onclick="getThreads(<?php echo $page;?>)">
+        <?php echo $page; ?>
+    </a> <span class="bar"> | </span>
+  <?php else: ?>
+    <?php echo $page; ?> <span class="bar"> | </span>
+  <?php endif; ?>
+<?php endforeach; ?>
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a onclick="getThreads(<?php echo $this->next; ?>)">
+    Next
+  </a>
+<?php else: ?>
+  <span class="disabled">Next </span>
+<?php endif; ?>
+</div>
+<?php endif; ?>

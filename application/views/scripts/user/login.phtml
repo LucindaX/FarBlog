@@ -1,0 +1,29 @@
+<br /><br />
+<div id="view-content">
+    <?php if (isset($this->error)){
+                
+                if($this->error == 'login'){
+            echo "<script> 
+                window.onload=function (){document.getElementById('signincheck').innerHTML='Incorrect Username or Password';
+                           
+                            document.getElementById('modal_trigger').click();}
+                            </script>";
+                }
+                
+                
+                 else if($this->error == 'signup'){
+                    echo "<script> 
+                        window.onload=function (){document.getElementById('signupcheck').innerHTML='Email Or Username Already Exists';
+                            document.getElementById('register_form').click();
+                            document.getElementById('modal_trigger').click();}
+                            </script>";
+                  
+                }  
+    
+                    }
+    
+             
+              
+      ?>
+    
+</div>

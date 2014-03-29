@@ -1,0 +1,11 @@
+<div class="row clearfix">
+<div class="col-md-4 column" style='margin-top:100px;'>
+<form action="<?php echo $this->baseUrl().$this->action ?>" method="post" id="form1">
+        <label><strong>New Category :</strong></label><br><br>
+        <?=$this->form->name?>
+        <?=$this->form->description ?>
+        <input type='hidden' value='<?= $this->cat_id?>' name='id'>
+        <?=$this->form->add ?>    
+</form> 
+</div>    
+</div>    

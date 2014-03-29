@@ -1,0 +1,171 @@
+<div class="container" style="margin-top: 100px;">
+	<div class="row clearfix">
+		<div class="col-md-12 column" id="categories">
+                  
+
+                  
+		</div>
+	</div>
+</div>
+
+<script>
+    
+    window.onload = getCategories();
+    var q=null;
+    
+    
+   function getForums(id,mainDiv){
+    
+        var myforums = document.createElement('div');
+       
+        myforums.className="forums";
+        mainDiv.appendChild(myforums);
+        myforums.innerHTML="<table class='table table-striped'></tr><thead><tr><th>#</th><th>Forum</th><th>Threads</th><th>Posts</th><th>Latest Post</th></tr></thead><tbody id='tablebody'></tbody>";
+	//var body = document.getElementById("tablebody");
+        var body = $('#tablebody', $( myforums ) )[0];
+       
+        
+    $.getJSON("/ZendProject/public/forum/forumajax/read/"+id , function(data,status){
+       q=data;
+        var content="";
+        var latestpost="";
+        var col="";
+        var foo = "lock";
+        for(var i in data ){
+            
+            if(typeof data[i].latestpost[0] != 'undefined'){
+             
+            latestpost = " by >> <a href=''>"+(data[i]["latestpost"][0].username)+"</a><br>"+(data[i].latestpost[0].date)+"<br>"+(data[i].latestpost[0].thread_name);
+                
+            }
+            else latestpost = "No new posts <br> empty forum";
+             
+             
+            if(data[i].locked != null){
+                
+             col=" class='danger' ";
+             foo="unlock";
+            }
+             
+       content+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+data[i].id+"<td><i class='glyphicon glyphicon-list-alt' title='Forum' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/list/forum_id/"+data[i].id+"'>"+data[i].name+"</a><br>"+data[i].description+"</div></td><td>"+data[i].threads+"</td><td>"+data[i].posts+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
+                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req(this.id,'edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req(this.id,'delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.id,this.title,"+data[i].id+");\"></i></li></ul></td></tr>";          
+      
+            col="";
+            foo="lock";
+        }
+        
+        body.innerHTML=content+"</tbody></table>";
+       
+       
+        
+    });
+    
+    
+    }
+    
+    function getCategories(){
+         var mycat;
+         var mainDiv=document.getElementById("categories");
+         mainDiv.innerHTML="";
+         var mynot;
+         var space = document.createElement('div');
+        space.style.height="40px";
+          $.getJSON("/ZendProject/public/category/ajax-Job/doWhat/selectAll",function(data,status){
+         var catDiv;    
+            for(var i in data){
+                
+                 mynot=document.createElement("div");
+                 mynot.id="notify";
+                 mynot.className="notification";
+                catDiv=document.createElement('div');
+                catDiv.id=data[i].id;
+                mycat=document.createElement('div');
+                mycat.classList.add("cat");
+                mycat.innerHTML="<p class='cat_title'>"+data[i].name+"</p>";
+                mainDiv.appendChild(catDiv);
+                catDiv.appendChild(mynot);
+                catDiv.appendChild(mycat);
+                console.log(data[i].id);
+                getForums(data[i].id,catDiv);
+                catDiv.appendChild(space);
+
+             }    
+    
+    
+           });
+       }
+       
+       
+         function notification(div,message,color){
+    
+            var notify = $("#notify" , div)[0];
+            notify.style.display="block";
+            notify.style.background = color;
+            notify.innerHTML=message;
+            setTimeout(function(){ notify.style.display="none";},6000);
+    
+    
+    }
+           
+   function req(cat_id,operation,forum_id){
+   
+       var jqxhr =  $.get("/ZendProject/public/forum/forumajax/"+operation+"/"+forum_id,
+        
+            function(data){
+                console.log(data);
+                 
+                 if(data > 0){
+                var mycatDiv = document.getElementById(cat_id);  
+                var forumsDiv = $( '.forums', mycatDiv )[0];
+                forumsDiv.innerHTML="";
+                getForums(cat_id,forumsDiv);    
+                notification(mycatDiv,"Forum was Successfully "+operation+"ed","#57E964");
+                 }
+                 else notification("Failed To "+operation+" forum","#F75D59");
+                
+                })
+   
+                .fail(function(){
+                    
+                notification("Failed To "+operation+" forum","#F75D59");
+                
+                
+                    });
+   
+    }
+    
+    
+       
+  /*  $('#tablebody tr').hover(
+  function() {
+    this.style.opacity="0.5";
+    $( '.paneladmin', $( this ) ).css("display","block");
+    },function(){this.style.opacity="1";$('.paneladmin', $( this ) ).css("display","none");});
+  */
+  
+    
+    
+    
+    $(document).on({
+    mouseenter: function () {
+    
+    $( '#editpanel', $( this ) ).css("display","block");
+ 
+     
+    
+    },
+    mouseleave: function () {
+         this.style.zIndex="20";
+        $('#editpanel', $( this ) ).css("display","none");
+       
+   
+         
+    }
+},"#tablebody tr");
+    
+    
+  /* limit string length in server side
+    if (strlen($str) > 10)
+   $str = substr($str, 0, 7) . '...';
+   */ 
+ </script>

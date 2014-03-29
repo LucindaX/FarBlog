@@ -1,0 +1,25 @@
+
+
+              <div class="container" style="margin-top:100px;">
+                    <div class="row clearfix">
+                        <div class="col-md-6 column">
+                            <form method="post" action="<?php echo $this->baseUrl().$this->action ?>"> <!--role="form" enctype="multipart/form-data"> -->
+                               <?php
+                              if($this->action == "/user/editinfo"){
+                                  echo $this->form->username."<br>";
+                              }
+                              echo $this->form->fname."<br>";
+                              echo $this->form->lname."<br>";
+                              echo $this->form->gender."<br>";
+                              if($this->action == "/user/editinfo"){
+                                  echo $this->form->email."<br>";
+                                  echo $this->form->password."<br>";
+                              }
+                              echo $this->form->country."<br>";
+                              echo $this->form->image."<br>";
+                              echo $this->form->btnAdd;
+                               ?>
+                            </form>
+                        </div>
+                    </div>
+                </div>

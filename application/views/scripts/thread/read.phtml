@@ -1,0 +1,118 @@
+
+
+<div class="container" style="margin-top: 100px;">
+	<div class="row clearfix">
+		<div class="col-md-12 column" id="<?= $this->forum_id ?>" class="threads" >
+                    <div class="forum_title"></div>
+                    <div id="reloadable">
+                        <div id="stickylist"></div>
+                        <div class="space"></div>
+                        <div id="list"></div>
+                    </div>
+                    <div id="paginatorControl"><?php echo $this->paginationControl($this->paginator,
+                            'Sliding','my_pagination_control.phtml'); ?></div>
+                  
+		</div>
+	</div>
+</div>
+<script>
+    var q;
+    console.log(<?php echo $this->forum_id ?>);
+    var id=<?php echo $this->forum_id ?>;
+    window.onload=getThreads();
+    
+     function getThreads(page){
+         
+       
+         
+         var stickylist=document.createElement('div');
+         stickylist.id="stickylist";
+         
+         var container=document.getElementById("reloadable");
+         container.innerHTML="";
+         
+         container.appendChild(stickylist);
+       
+         
+        stickylist.innerHTML="<table class='table table-striped'><tr><thead ><th>Title/Thread Starter</th><th>Views</th><th>Replies</th><th>Latest Post</th></tr></thead><tbody id='tablebody'></tbody></table>";
+        var stickybody = $('#tablebody',$('#stickylist'))[0];
+        
+       $.getJSON("/ZendProject/public/thread/read/forum_id/"+id+"/page/"+page , function(data,status){
+           
+           $( "#paginatorControl" ).load( "/ZendProject/public/thread/load-Paginator" );
+        
+            console.log(data);
+            q=data;
+       
+            var stickycontent="";
+            
+            var latestpost;
+            var col="";
+            var foo = "lock";
+            var stickyimg="";
+            
+            for(var i in data ){
+            
+          //  if(data[i].latestpost.length > 0){
+             
+          //  latestpost = " by >> <a href=''>"+(data[i]["latestpost"][0].username)+"</a><br>"+(data[i].latestpost[0].date);
+             
+          //  }
+          //  else
+             latestpost = "No new posts <br> empty Thread";
+             
+             
+            if(data[i].locked != null){
+                
+             col=" class='danger' ";
+             foo="unlock";
+            }
+          if(data[i].sticky == "true"){  
+             
+           stickyimg="<img src='/ZendProject/public/images/sticky.gif' style='display:inline-block; top:2px; margin-right:5px;'/>";
+       
+            }
+            
+          stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/thread_id/"+data[i].id+"'>"+data[i].name+"</a><br><font size='3'>Started by :"+data[i].startedBy+" "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].id+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
+                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req(this.id,'edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req(this.id,'delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.id,this.title,"+data[i].id+");\"></i></li></ul></td></tr>";          
+       
+            
+            
+            col="";
+            foo="lock";
+            stickyimg="";
+        
+        }
+        
+        stickybody.innerHTML=stickycontent;
+       
+       
+        
+    }) 
+    
+    
+    }
+    
+      $(document).on({
+    mouseenter: function () {
+    
+    $( '#editpanel', $( this ) ).css("display","block");
+ 
+     
+    
+    },
+    mouseleave: function () {
+         this.style.zIndex="20";
+        $('#editpanel', $( this ) ).css("display","none");
+       
+   
+         
+    }
+},"#tablebody tr");
+    
+    
+    
+    
+    
+    
+ </script>   

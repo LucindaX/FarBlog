@@ -1,0 +1,13 @@
+<div class="row clearfix">
+<div class="col-md-4 column" style='margin-top:100px;'>
+<form action="<?php echo $this->baseUrl().$this->action ?>" method="post" id="form1" style='border:1px black; border-radius:5px; padding:5px;'>
+    <label><strong>New Forum :</strong></label><br><br>
+        <?=$this->form->name ?><br>
+        <?=$this->form->description ?><br>
+        <?=$this->form->cat_id ?><br>
+        <input type="hidden" value='<?= $this->forumId ?>' name='id'>
+        <?=$this->form->add ?><br> 
+        
+</form> 
+</div>
+</div>

@@ -1,0 +1,24 @@
+
+<div class="container" style='margin-top:100px;'>
+	<div class="row clearfix">
+		<div class="col-md-2 column">
+                    <img alt="140x140" src="/var/www/ZendProject/public/images/<?= $this->userData["image"]; ?>" />
+                </div>
+                <div class="col-md-6 column">
+                    <label>First name : <?= $this->userData["fname"]; ?></label><br><br>
+                    <label>Last name : <?= $this->userData["lname"]; ?></label><br><br>
+                    <label>Username : <?= $this->userData["username"]; ?></label><br><br>
+                    <label>Gender : <?php
+                        if ($this->userData["gender"] == 'f') {
+                            echo "Female";
+                        } elseif ($this->userData["gender"] == 'm') {
+                            echo "Male";
+                        }
+                        ?></label><br><br>
+                    <label>E-mail : <?= $this->userData["email"]; ?></label><br><br>
+                </div>
+
+        </div>
+    <a href="<?=$this->baseUrl();?>/user/editinfo" style=" color: blue; position: absolute; top: 0px; left:800px;">Edit profile info</a>
+</div>
+                       
