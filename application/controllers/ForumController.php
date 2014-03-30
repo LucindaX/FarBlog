@@ -2,41 +2,48 @@
 
 class ForumController extends Zend_Controller_Action
 {
+    private $session;
+    private $userId;
+    private $account_type;
 
     public function init()
     {
-        /* Initialize action controller here */
+        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $authorization = Zend_Auth::getInstance();
+        $this->userId = $this->session->storage->id;
+        $this->account_type = $this->session->storage->account_type;
+        if(!$authorization->hasIdentity()) {
+            echo "error";
+        }else{
+           // $this->redirect("user/add");
+        }
     }
 
     public function indexAction()
     {
-        // action body
+      // action body
     }
 
-    public function forumajaxAction()
-    {
+    public function forumajaxAction() {
         //if($this->getRequest()->isXmlHttpRequest())
-       Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
-         $forummodel = new Application_Model_Forum();
-     if($this->hasParam("read")){
-         
-        $cat_id=$this->_request->getParam("read");
-        $threadmodel = new Application_Model_Thread();
-        $forumresult=$forummodel->getforums($cat_id);
-        
-        $arr=array();
-        foreach($forumresult as $forum){
-             $count = $threadmodel->getThreadsPostCount($forum["id"]);
-             $latest= $threadmodel->getlatestPost($forum["id"]);
-             $my=array("id"=>$forum["id"],"name"=>$forum["name"],"locked"=>$forum["locked"],"description"=>$forum["description"],"threads"=>$count["threads"],"posts"=>$count["posts"]+$count["threads"],"latestpost"=>$latest);
-             $arr[]=$my;
-            
-               }
-             // print_r ($arr);
-               return $this->_helper->json->sendJson($arr);
-      
-      
-     }
+        Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
+        $forummodel = new Application_Model_Forum();
+        if ($this->hasParam("read")) {
+
+            $cat_id = $this->_request->getParam("read");
+            $threadmodel = new Application_Model_Thread();
+            $forumresult = $forummodel->getforums($cat_id);
+
+            $arr = array();
+            foreach ($forumresult as $forum) {
+                $count = $threadmodel->getThreadsPostCount($forum["id"]);
+                $latest = $threadmodel->getlatestPost($forum["id"]);
+                $my = array("id" => $forum["id"], "name" => $forum["name"], "locked" => $forum["locked"], "description" => $forum["description"], "threads" => $count["threads"], "posts" => $count["posts"] + $count["threads"], "latestpost" => $latest);
+                $arr[] = $my;
+            }
+            // print_r ($arr);
+            return $this->_helper->json->sendJson($arr);
+        }
      
      else if($this->hasParam("delete")){
          
@@ -76,8 +83,6 @@ class ForumController extends Zend_Controller_Action
         }
                
         if ($this->getRequest()->isPost()) {
-            //$categId = $this->getParam("pid");
-           
             $name = $this->getParam("name");           
             $desc = $this->getParam("description");
             $cat_id = $this->getParam("cat_id");
@@ -115,7 +120,12 @@ class ForumController extends Zend_Controller_Action
             $desc= $this->getParam("description"); 
             $cat_id = $this->getParam("cat_id");
             $forumModel = new Application_Model_Forum();
-            $forumModel->addforum($name, $desc, $cat_id);        
+            $success = $forumModel->addforum($name, $desc, $cat_id); 
+            if($success){
+                $this -> redirect("/user/admin-tools/status/addedForum/id/".$success."");
+            }else{
+                $this -> redirect("/user/admin-tools/status/failedForum/id/".$success."");
+            }
         }
     }
 

@@ -3,14 +3,26 @@
 class UserController extends Zend_Controller_Action
 {
 
+    private $session = null;
+    private $accountType = null;    
+    private $userId = null;
+
     public function init()
     {
-        /* Initialize action controller here */
+        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $authorization = Zend_Auth::getInstance();
+        if(!$authorization->hasIdentity()) {
+            echo "error";
+        }else{
+            if($account_type == "admin"){
+                $this->redirect("user/admin-tools");               
+            }
+        }
     }
 
     public function indexAction()
     {
-        // action body
+        
     }
 
     public function loginAction()
@@ -34,11 +46,17 @@ class UserController extends Zend_Controller_Action
                 $result = $authAdapter->authenticate();
                 
                 if ($result->isValid()) {
-                
+                    //$this->_helper->FlashMessenger('Successful Login');
                     $auth = Zend_Auth::getInstance();
                     $storage = $auth->getStorage();
-                    $storage->write($authAdapter->getResultRowObject(array('id', 'email')));
-                    //$this->session->id = $auth->getStorage()->read()->id;
+                    $storage->write($authAdapter->getResultRowObject(array('id', 'account_type', 'email')));                   
+                    $dbData = $auth->getStorage()->read();
+                    $this->accountType = $dbData-> account_type;
+                    $this->userId = $dbData->id;
+                    $this->view->id = $this->userId;
+                    $this->view->acc = $this->accountType;
+                    //$this->layout()->id = $userId;
+                    //$this->layout()->account_type = $accountType;
                     $this->redirect("/user/login");
                     
                 } else
@@ -185,10 +203,18 @@ class UserController extends Zend_Controller_Action
             $this->view->userData = $userData;
          }
     
-        }
+    }
+
+    public function logoutAction()
+    {
+        Zend_Auth::getInstance()->clearIdentity();  
+        $this->_redirect('/user/index');  
+    }
 
 
 }
+
+
 
 
 

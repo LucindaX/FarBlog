@@ -2,10 +2,21 @@
 
 class ReplyController extends Zend_Controller_Action
 {
-
+    private $session = null;
+    private $userType = null;    
+    private $userId = null;
+    
     public function init()
     {
-        /* Initialize action controller here */
+        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $authorization = Zend_Auth::getInstance();
+        $this->userId = $this->session->storage->id;
+        $this->account_type = $this->session->storage->account_type;
+        if(!$authorization->hasIdentity()) {
+            echo "error";
+        }else{
+           // $this->redirect("user/add");
+        }
     }
 
     public function indexAction()
@@ -23,7 +34,7 @@ class ReplyController extends Zend_Controller_Action
             $body= $this->getParam("body");
             $date = date('Y-m-d H:i:s');
             $threadId = 3; //-------------------------
-            $userId = 1;  //--------------------------
+            $userId = $this->userId;  //--------------------------
             
             $replyModel = new Application_Model_Reply();
             $this->view->reply = $replyModel->addReply($body, $date, $threadId, $userId);
@@ -45,7 +56,7 @@ class ReplyController extends Zend_Controller_Action
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
             $threadId = 3;
-            $userId = 1;  //--------------------------
+            $userId = $this->userId;  //--------------------------
 
             $replyData = array(
                 'body' => $body,

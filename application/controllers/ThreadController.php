@@ -2,10 +2,20 @@
 
 class ThreadController extends Zend_Controller_Action
 {
+    private $session = null;
+    private $userType = null;
+    private $userId = null;
 
-    public function init()
-    {
-        
+    public function init() {
+        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $authorization = Zend_Auth::getInstance();
+        $this->userId = $this->session->storage->id;
+        $this->account_type = $this->session->storage->account_type;
+        if(!$authorization->hasIdentity()) {
+            echo "error";
+        }else{
+            $this->redirect("thread/list");
+        }
     }
 
     public function indexAction()
@@ -112,7 +122,13 @@ class ThreadController extends Zend_Controller_Action
             $userId = 1;  //--------------------------
             
             $threadModel = new Application_Model_Thread();
-            $this->view->thread = $threadModel->addThread($title, $body, $date, $forum, $userId);
+            //$this->view->thread = $threadModel->addThread($title, $body, $date, $forum, $userId);
+            $success = $threadModel->addThread($title, $body, $date, $forum, $userId);
+            if($success){
+                $this -> redirect("/thread/read/status/addedThread/id/".$success."");
+            }else{
+                $this -> redirect("/thread/read/status/failedThread/id/".$success."");
+            }
         }
     }
 
