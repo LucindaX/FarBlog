@@ -40,7 +40,7 @@ class Application_Model_Forum extends Zend_Db_Table_Abstract
     }
     
     function editForum($forumData, $forumId){
-        $this->update($forumData, "forums.id = $forumId");
+      return  $this->update($forumData, "forums.id = $forumId");
     }
 
     function getForumsNames(){

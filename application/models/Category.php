@@ -9,7 +9,7 @@ class Application_Model_Category extends Zend_Db_Table_Abstract
     }
     
     function deleteCateg($categId){
-         $this->delete("categories.id = $categId");
+       return  $this->dele("categories.id = $categId");
     }
     
     function addCateg($name, $desc){
@@ -20,7 +20,7 @@ class Application_Model_Category extends Zend_Db_Table_Abstract
     }
     
     function editCateg($categData, $categId){
-       $this->update($categData, "categories.id = $categId"); 
+       return $this->update($categData, "categories.id = $categId"); 
     }
     
     function getCategById($categId){

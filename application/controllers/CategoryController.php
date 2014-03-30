@@ -15,16 +15,24 @@ class CategoryController extends Zend_Controller_Action
 
    public function ajaxJobAction()
     {
-        if ($this->getRequest()->isGet()) {
+        if ($this->hasParam("doWhat")) {
             $doWhat = $this->getRequest()->getParam("doWhat");
             $categId = $this->getRequest()->getParam("categId");
             if ($doWhat == "selectAll") {
                 $categModel = new Application_Model_Category ();
                return $this->_helper->json->sendJson($categModel->selectAllCategs());
-            }elseif ($doWhat == "delete") {
+            }else if ($doWhat == "delete") {
                 $categModel = new Application_Model_Category ();
-                $this->view->categs = $categModel->deleteCateg($categId);
+                return  $categModel->deleteCateg($categId);
+                exit;
             }
+        }
+        else if($this->hasParam("edited")){
+            $this->view->edited= $this->getParam("edited")."  successfully  edited";
+        }
+        else if($this->hasParam("failed")){
+            $this->view->failed= "Failed to edit  ".$this->getParam("edited");
+
         }
     }
 
@@ -38,6 +46,7 @@ class CategoryController extends Zend_Controller_Action
             $desc= $this->getParam("description");      
             $categModel = new Application_Model_Category();
             $this->view->categs = $categModel->addCateg($name, $desc);
+            
         }
         
     }
@@ -60,7 +69,12 @@ class CategoryController extends Zend_Controller_Action
                 'name' => $name,
                 'description' => $desc
             );
-            $categModel->editCateg($categs, $categId);
+           $result= $categModel->editCateg($categs, $categId);
+           if($result > 0){
+            $this->redirect("/category/ajax-job/edited/category");
+           }
+           else     $this->redirect("/category/ajax-job/failed/category");
+
         } else {
             
             $categs = $categModel->getCategById($categId);

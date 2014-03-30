@@ -3,20 +3,35 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/ZendProject/application/Bootstrap.php</file>
+            <file>file:/var/www/ZendProject/application/forms/Thread.php</file>
+            <file>file:/var/www/ZendProject/application/controllers/ReplyController.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/admin-tools.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/reply/add.phtml</file>
+            <file>file:/var/www/ZendProject/application/controllers/CategoryController.php</file>
+            <file>file:/var/www/ZendProject/application/models/Thread.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/profile.phtml</file>
+            <file>file:/var/www/ZendProject/application/models/Reply.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/addinfo.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/forum/add.phtml</file>
             <file>file:/var/www/ZendProject/application/views/scripts/thread/list.phtml</file>
             <file>file:/var/www/ZendProject/application/views/scripts/category/ajax-job.phtml</file>
+            <file>file:/var/www/ZendProject/application/models/Category.php</file>
             <file>file:/var/www/ZendProject/application/views/scripts/thread/read.phtml</file>
-            <file>file:/var/www/ZendProject/application/Bootstrap.php</file>
-            <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/category/add.phtml</file>
             <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
-            <file>file:/var/www/ZendProject/application/views/scripts/user/admin-tools.phtml</file>
-            <file>file:/var/www/ZendProject/application/models/User.php</file>
+            <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
+            <file>file:/var/www/ZendProject/application/forms/Forum.php</file>
             <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
-            <file>file:/var/www/ZendProject/application/controllers/CategoryController.php</file>
+            <file>file:/var/www/ZendProject/application/models/User.php</file>
+            <file>file:/var/www/ZendProject/application/forms/Reply.php</file>
             <file>file:/var/www/ZendProject/application/configs/application.ini</file>
             <file>file:/var/www/ZendProject/application/controllers/UserController.php</file>
-            <file>file:/var/www/ZendProject/application/models/Thread.php</file>
+            <file>file:/var/www/ZendProject/application/forms/Userinfo.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/thread/add.phtml</file>
             <file>file:/var/www/ZendProject/application/models/Forum.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/editinfo.phtml</file>
+            <file>file:/var/www/ZendProject/application/forms/Category.php</file>
         </group>
     </open-files>
 </project-private>

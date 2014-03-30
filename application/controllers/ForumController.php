@@ -87,7 +87,12 @@ class ForumController extends Zend_Controller_Action
                 'description' => $desc,
                 'cat_id' => $cat_id
             );
-            $forumModel->editForum($forumData, $forumId);
+            $result= $forumModel->editForum($forumData, $forumId);
+              if($result > 0){
+            $this->redirect("/category/ajax-job/edited/forum");
+           }
+           else     $this->redirect("/category/ajax-job/failed/forum");
+
         } else {
            
             $forumData = $forumModel->getForumById($forumId);

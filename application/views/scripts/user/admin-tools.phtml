@@ -8,16 +8,16 @@
                    
                   <div class="panel panel-default" style="border-color:#DAB4B4; box-shadow: 1px 1px 1px black ;">
 				<div class="panel-body" onclick="getUsers()">
-                                        Users
+                                        List Users
 				</div>
-                      <div class="panel-body" onclick="getCategories();">
-					Forum Categories
+                      <div class="panel-body" onclick="addCat();">
+					Add Category
 				</div>
-				<div class="panel-body"onclick="getForums();">
-					Forums
+				<div class="panel-body"onclick="addForum();">
+					Add Forum
 				</div>  
                                 <div class="panel-body" onclick="getThreads();">
-					Threads
+					Administrative browsing 
 				</div>  
                                 <div class="panel-body">
 					Back Home
@@ -60,15 +60,17 @@
         var content="";
         var st="";
 	console.log(data);
+        var title="ban";
         for(var i in data ){
-            if(data[i].status == "banned") st="danger";
+            if(data[i].status == "banned"){ st="danger";title="unban"; }
             else if(data[i].status == "online") st="success";
-                else st="";
+            else st="";
        content+="<tr class='"+st+"'><td>"+data[i].id+"</td><td>"+data[i].email+"</td><td>"+data[i].username+"</td><td>"+data[i].status+
-               "</td><td><i class='glyphicon glyphicon-info-sign' title='View Profile'></i>&nbsp&nbsp<i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"goEdit("+data[i].id+");\"></i>&nbsp&nbsp<i class='glyphicon glyphicon-trash' title='Delete User' onclick=\"goDel("+data[i].id+");\"></i>&nbsp&nbsp"+
-             "<i class='glyphicon glyphicon-ban-circle' title='Ban User'></i>&nbsp&nbsp";          
+               "</td><td><i class='glyphicon glyphicon-info-sign' title='View Profile' onclick=\"viewprofile("+data[i].id+")\"></i>&nbsp&nbsp<i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"goEdit("+data[i].id+");\"></i>&nbsp&nbsp<i class='glyphicon glyphicon-trash' title='Delete User' onclick=\"goDel("+data[i].id+");\"></i>&nbsp&nbsp"+
+             "<i class='glyphicon glyphicon-ban-circle' title='"+title+"' onclick=\"ban('"+title+"',"+data[i].id+")\"></i>&nbsp&nbsp";          
             
-     
+            title="ban";
+            st="";
         }
         
         body.innerHTML=content+"</tbody>";
@@ -79,26 +81,22 @@
     
     }
     
+    function addCat(){
+    
+     window.location.href="/ZendProject/public/category/add";
+     
+    }
+    
+    function addForum(){
+    
+     window.location.href="/ZendProject/public/forum/add";
+     
+    }
     
     
     function getThreads(){
     
-    
-      var table=document.getElementById("mytable");
-        table.innerHTML="<thead><tr><th>#</th><th>Name</th><th>Forums/Threads</th><th>Action</th></tr></thead><tbody id='tablebody'></tbody>";
-	var body = document.getElementById("tablebody");	
-    $.getJSON("/ZendProject/public/user/categoryajax/read/1",function(data,status){
-        var content="";
-        for(var i in data ){
-       content+="<tr id='"+data[i].id+"'><td><i class='glyphicon glyphicon-list-alt' title='Forum'></i><a href='#'>"+data[i].name+"</a><br>"+data[i].description+"</td><td>"+data[i].threads+"</td><td>"+data[i].posts+"</td></tr>";          
-        }
-        
-        body.innerHTML=content+"</tbody>";
-        
-        
-    });
-    
-    
+       window.location.href='/ZendProject/public/category/ajax-job';
     
     }
     
@@ -120,6 +118,7 @@
            if(status != 400 && status != 404){
                
            notification("User Successfully Deleted","#57E964");
+           getUsers();
                
             }
             
@@ -127,8 +126,41 @@
             
             
         });
-        getUsers();
+        
     }
+    
+    function ban(action,id){
+    
+        $.get("/ZendProject/public/user/userajax/"+action+"/"+id,function(status){
+            
+           if(status != 400 && status != 404 && status !=500){
+               
+           notification("User Successfully Banned","#57E964");
+            getUsers();
+               
+            }
+            
+            else notification("Failed To Ban User Try Again Later","#F75D59");
+            
+            
+        });
+       
+    }
+    
+    function viewprofile(id){
+    
+        window.location.href="/ZendProject/public/user/profile/userId/"+id;
+            
+       
+    }
+    
+    function goEdit(id){
+    
+        window.location.href="/ZendProject/public/user/editinfo/userId/"+id;
+            
+    
+    }
+    
     
     
     

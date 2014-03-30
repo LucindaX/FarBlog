@@ -66,7 +66,6 @@ class UserController extends Zend_Controller_Action
                     )
                 );
                 if ($validator->isValid($username) && $validator2->isValid($email)) {
-                    echo "hiiiiiii";
                       $object = new Application_Model_User();
                       $password = md5($this->_request->getParam("password"));
 
@@ -98,7 +97,18 @@ class UserController extends Zend_Controller_Action
        else if($this->hasParam("delete")){
          $id=$this->_request->getParam("delete");
          $object->deleteUser($id);
-         return ;
+         exit;
+       }
+       else if($this->hasParam("ban")){
+            $id=$this->_request->getParam("ban");
+            $object->banUser($id);
+          exit;
+       }
+       else if($this->hasParam("unban")){
+            $id=$this->_request->getParam("unban");
+            $object->unbanUser($id);
+            exit;
+            
        }
     }
 
@@ -107,8 +117,9 @@ class UserController extends Zend_Controller_Action
          $this->view->action = "/user/addinfo";
         $profileForm = new Application_Form_Userinfo();
         $this->view->form = $profileForm;
+        if($this->hasParam("id")) $userId=$this->getParam ("userId");
          if($this->getRequest()->isPost()){
-            $userId = 1;
+            
             $fname = $this->getParam("fname");
             $lname= $this->getParam("lname");
             $gender= $this->getParam("gender");
@@ -136,7 +147,7 @@ class UserController extends Zend_Controller_Action
         $profileForm = new Application_Form_Userinfo();
         $this->view->form = $profileForm;
         $userModel = new Application_Model_User();
-        $userId = $this->getParam("id");
+        $userId = $this->getParam("userId");
         
         if ($this->getRequest()->isPost()) {
             
