@@ -22,11 +22,12 @@ class ReplyController extends Zend_Controller_Action
         if($this->getRequest()->isPost()){
             $body= $this->getParam("body");
             $date = date('Y-m-d H:i:s');
-            $threadId = 3; //-------------------------
-            $userId = 1;  //--------------------------
+            $threadId = $this->getParam("threadId");
+            $userId = 13;  //--------------------------
             
             $replyModel = new Application_Model_Reply();
-            $this->view->reply = $replyModel->addReply($body, $date, $threadId, $userId);
+            $replyModel->addReply($body, $date, $threadId, $userId);
+            $this->redirect("/thread/read/threadId/$threadId");
         }
     }
 
@@ -37,28 +38,29 @@ class ReplyController extends Zend_Controller_Action
         $this->view->form = $replyForm;
         $replyModel = new Application_Model_Reply();
         if ($this->hasParam("replyId")) {
-        $replyId = $this->getRequest()->getParam("replyId"); 
+        $replyId = $this->getRequest()->getParam("replyId");
+        $threadId= $this->getParam("threadId");
         }
                
         if ($this->getRequest()->isPost()) {
                       
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
-            $threadId = 3;
-            $userId = 1;  //--------------------------
+            $threadId = $this->getParam("threadId");
+          //--------------------------
 
             $replyData = array(
                 'body' => $body,
-                'user_id' => $userId,
-                'thread_id' => $threadId,
                 'date' => $date               
             );
             $replyModel->editReply($replyData, $replyId);
+            $this->redirect("/thread/read/threadId/$threadId");
         } else {
            
             $replyData = $replyModel->getReplyById($replyId);
             $replyForm->populate($replyData);
             $this->view->replyId=$replyId;
+            $this->view->threadId=$threadId;
         }
      $this->render('add');    
 
@@ -66,10 +68,14 @@ class ReplyController extends Zend_Controller_Action
 
     public function deleteAction()
     {
+               Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
+
        if($this->hasParam("replyId")){
-            $replyId = $this->getRequest()->getParam("replyId"); 
+            $replyId = $this->getRequest()->getParam("replyId");
             $replyModel = new Application_Model_Reply();
-            $replyModel->deleteReply($replyId);
+           echo  $replyModel->deleteReply($replyId);
+           exit();
+      
        }
     }
 

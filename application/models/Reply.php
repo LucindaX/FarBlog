@@ -22,11 +22,24 @@ class Application_Model_Reply extends Zend_Db_Table_Abstract
     }
     
     function editReply($replyData, $replyId){
-        $this->update($replyData, "replies.id = $replyId");
+       return $this->update($replyData, "replies.id = $replyId");
     }
     
     function deleteReply($replyId){
-        $this->delete("replies.id = $replyId");
+       return $this->delete("replies.id = $replyId");
+    }
+    
+    function getReplies($threadId){
+        
+          $select = $this->select()
+                  ->setIntegrityCheck(false)
+                  ->from("replies as Th",array("Th.thread_id","Th.id","Th.body as title","Th.date","users.image","users.username","users.id as user_id","users.date_joined","users.country as location") )
+                  ->join("users","Th.user_id=users.id",array())
+                  ->where("Th.thread_id=$threadId")
+                  ->order("date ASC");
+                
+        return $this->fetchAll($select)->toArray();
+        
     }
     
     
