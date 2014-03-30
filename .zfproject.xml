@@ -40,6 +40,9 @@
           <actionMethod actionName="loadPaginator"/>
           <actionMethod actionName="add"/>
           <actionMethod actionName="edit"/>
+          <actionMethod actionName="delete"/>
+          <actionMethod actionName="lock"/>
+          <actionMethod actionName="unlock"/>
         </controllerFile>
         <controllerFile controllerName="Reply">
           <actionMethod actionName="index"/>
@@ -68,6 +71,7 @@
         <modelFile modelName="Thread"/>
         <modelFile modelName="Reply"/>
         <modelFile modelName="Forumslocked"/>
+        <modelFile modelName="Threadslocked"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>
@@ -156,6 +160,15 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Reply">
             <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Thread">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Thread">
+            <viewScriptFile forActionName="lock"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Thread">
+            <viewScriptFile forActionName="unlock"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

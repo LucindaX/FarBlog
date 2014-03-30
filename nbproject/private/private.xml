@@ -18,12 +18,13 @@
             <file>file:/var/www/ZendProject/application/views/scripts/category/ajax-job.phtml</file>
             <file>file:/var/www/ZendProject/application/models/Category.php</file>
             <file>file:/var/www/ZendProject/application/views/scripts/thread/read.phtml</file>
+            <file>file:/var/www/ZendProject/application/models/Threadslocked.php</file>
             <file>file:/var/www/ZendProject/application/views/scripts/category/add.phtml</file>
             <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
             <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
             <file>file:/var/www/ZendProject/application/forms/Forum.php</file>
-            <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
             <file>file:/var/www/ZendProject/application/models/User.php</file>
+            <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
             <file>file:/var/www/ZendProject/application/forms/Reply.php</file>
             <file>file:/var/www/ZendProject/application/configs/application.ini</file>
             <file>file:/var/www/ZendProject/application/controllers/UserController.php</file>
