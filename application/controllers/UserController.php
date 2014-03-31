@@ -23,7 +23,7 @@ class UserController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
+        $this->forward("/category/ajax-job");
     }
 
     public function loginAction()
@@ -103,7 +103,8 @@ class UserController extends Zend_Controller_Action
 
     public function adminToolsAction()
     {
-        // action body
+        if($this->session->storage->account_type != "admin")
+            $this->redirect ("/user/index");
     }
 
     public function userajaxAction()

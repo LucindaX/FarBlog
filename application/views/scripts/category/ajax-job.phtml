@@ -120,13 +120,18 @@
     
     
     }
-           
+    
+    <?php 
+    
+    if(isset($this->account_type))
+        if($this->account_type == "admin"){
+   echo "        
    function req(cat_id,operation,forum_id){
        if(operation == 'edit'){
-       window.location.href="/ZendProject/public/forum/edit/forumId/"+forum_id;
+       window.location.href='/ZendProject/public/forum/edit/forumId/'+forum_id;
         }
         else{
-       var jqxhr =  $.get("/ZendProject/public/forum/forumajax/"+operation+"/"+forum_id,
+       var jqxhr =  $.get('/ZendProject/public/forum/forumajax/'+operation+'/'+forum_id,
         
             function(data){
                 console.log(data);
@@ -134,17 +139,17 @@
                  if(data > 0){
                
                 var forumsDiv = $( '.forums', mycatDiv )[0];
-                forumsDiv.innerHTML="";
+                forumsDiv.innerHTML='';
                 getForums(cat_id,forumsDiv);    
-                notification(mycatDiv,"Forum was Successfully "+operation+"ed","#57E964");
+                notification(mycatDiv,'Forum was Successfully '+operation+'ed','#57E964');
                  }
-                 else notification(mycatDiv,"Failed To "+operation+" forum","#F75D59");
+                 else notification(mycatDiv,'Failed To '+operation+' forum','#F75D59');
                 
                 })
    
                 .fail(function(){
                  var mycatDiv = document.getElementById(cat_id);     
-                notification("Failed To "+operation+" forum","#F75D59");
+                notification('Failed To '+operation+' forum','#F75D59');
                 
                 
                     });
@@ -155,31 +160,31 @@
         
         
         if(operation == 'delete'){
-       var jqxhr =  $.get("/ZendProject/public/category/ajax-job/doWhat/delete/categId/"+cat_id,
+       var jqxhr =  $.get('/ZendProject/public/category/ajax-job/doWhat/delete/categId/'+cat_id,
         
             function(data){
-                console.log("helllllo"+cat_id);
-                 var q=document.getElementById("categories")
+                console.log('helllllo'+cat_id);
+                 var q=document.getElementById('categories')
                  if(data > 0){
                 var mycatDiv = document.getElementById(cat_id);  
                 var forumsDiv = $( '.forums', mycatDiv )[0];
-                forumsDiv.innerHTML="";
+                forumsDiv.innerHTML='';
                 
-                notification(q,"Category was Successfully "+operation+"ed","#57E964");
+                notification(q,'Category was Successfully '+operation+'ed','#57E964');
                  }
-                 else notification(q,"Failed To "+operation+" Category","#F75D59");
+                 else notification(q,'Failed To '+operation+' Category','#F75D59');
                 
                 })
    
                 .fail(function(){
                 var mycatDiv = document.getElementById(cat_id);      
-                notification(mycatDiv,"Failed To "+operation+" Category","#F75D59");
+                notification(mycatDiv,'Failed To '+operation+' Category','#F75D59');
                 
                 
                     });
    
         }
-        else window.location.href="/ZendProject/public/category/edit/id/"+cat_id;
+        else window.location.href='/ZendProject/public/category/edit/id/'+cat_id;
     }
     
     
@@ -187,9 +192,9 @@
        
   /*  $('#tablebody tr').hover(
   function() {
-    this.style.opacity="0.5";
-    $( '.paneladmin', $( this ) ).css("display","block");
-    },function(){this.style.opacity="1";$('.paneladmin', $( this ) ).css("display","none");});
+    this.style.opacity='0.5';
+    $( '.paneladmin', $( this ) ).css('display','block');
+    },function(){this.style.opacity='1';$('.paneladmin', $( this ) ).css('display','none');});
   */
   
     
@@ -198,38 +203,39 @@
     $(document).on({
     mouseenter: function () {
     
-    $( '#editpanel', $( this ) ).css("display","block");
+    $( '#editpanel', $( this ) ).css('display','block');
  
      
     
     },
     mouseleave: function () {
-         this.style.zIndex="20";
-        $('#editpanel', $( this ) ).css("display","none");
+         this.style.zIndex='20';
+        $('#editpanel', $( this ) ).css('display','none');
        
    
          
     }
-},"#tablebody tr");
+},'#tablebody tr');
     
     
      $(document).on({
     mouseenter: function () {
     
-    $( '#catpanel', $( this ) ).css("display","inline-block");
+    $( '#catpanel', $( this ) ).css('display','inline-block');
  
      
     
     },
     mouseleave: function () {
-         this.style.zIndex="20";
-        $('#catpanel', $( this ) ).css("display","none");
+         this.style.zIndex='20';
+        $('#catpanel', $( this ) ).css('display','none');
        
    
          
     }
-},".catContainer");  
+},'.catContainer');  
     
+        "; }?>
     
     <?php
     

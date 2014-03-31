@@ -71,6 +71,7 @@ class ThreadController extends Zend_Controller_Action
            else {
                $this->view->forum_id=$forum_id;
                $this->view->forum_name=$forum_name;
+               $this->view->account_type=$this->session->storage->account_type;
            }
             
             
@@ -187,6 +188,9 @@ class ThreadController extends Zend_Controller_Action
             exit();
         }
     }
+    
+    
+    
 
 
 }

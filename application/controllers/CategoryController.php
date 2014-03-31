@@ -48,7 +48,10 @@ class CategoryController extends Zend_Controller_Action
             $this->view->failed= "Failed to edit  ".$this->getParam("edited");
 
         }
-    }
+
+        $this->view->account_type = $this->session->storage->account_type;
+        
+        }
 
     public function addAction()
     {
