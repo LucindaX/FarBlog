@@ -3,28 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
-            <file>file:/var/www/ZendProject/application/controllers/CategoryController.php</file>
-<<<<<<< HEAD
-=======
-            <file>file:/var/www/ZendProject/application/views/scripts/user/login.phtml</file>
-            <file>file:/var/www/ZendProject/application/views/scripts/thread/read.phtml</file>
-<<<<<<< HEAD
-            <file>file:/var/www/ZendProject/application/models/Threadslocked.php</file>
-            <file>file:/var/www/ZendProject/application/views/scripts/category/add.phtml</file>
-            <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
-            <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
-            <file>file:/var/www/ZendProject/application/forms/Forum.php</file>
-            <file>file:/var/www/ZendProject/application/models/User.php</file>
-            <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
-            <file>file:/var/www/ZendProject/application/forms/Reply.php</file>
-            <file>file:/var/www/ZendProject/application/configs/application.ini</file>
-=======
->>>>>>> 4139d058effb90fe6eb59b01db29eef6802af3c3
->>>>>>> db9dc6d887ea5e4b5d901ab1de582b3f2043311a
+            <file>file:/var/www/ZendProject/application/forms/Userinfo.php</file>
             <file>file:/var/www/ZendProject/application/controllers/UserController.php</file>
-            <file>file:/var/www/ZendProject/application/controllers/ReplyController.php</file>
-            <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/profile.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/addinfo.phtml</file>
         </group>
     </open-files>
 </project-private>
