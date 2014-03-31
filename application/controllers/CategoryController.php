@@ -2,15 +2,29 @@
 
 class CategoryController extends Zend_Controller_Action
 {
-
+    private $session;
+    private $userId;
+    private $account_type;
+    
     public function init()
     {
-        /* Initialize action controller here */
+        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $authorization = Zend_Auth::getInstance();
+        $this->userId = $this->session->storage->id;
+        $this->account_type = $this->session->storage->account_type;
+        if(!$authorization->hasIdentity()) {
+            echo "error";
+        }else{
+           // $this->redirect("user/add");
+        }
     }
 
     public function indexAction()
     {
-        // action body
+        /* return array(
+        'id' => $userId,
+        'acc_type' => $account_type
+    );*/
     }
 
    public function ajaxJobAction()
@@ -39,14 +53,21 @@ class CategoryController extends Zend_Controller_Action
     public function addAction()
     {
         $this->view->action = "/category/add";
+        $this->view->id = $this->userId;
+        $this->view->acc = $this->account_type;
         $categForm = new Application_Form_Category();
         $this->view->form = $categForm;
         if($this->getRequest()->isPost()){
             $name = $this->getParam("name");
             $desc= $this->getParam("description");      
             $categModel = new Application_Model_Category();
-            $this->view->categs = $categModel->addCateg($name, $desc);
-            
+            //$this->view->categs = $categModel->addCateg($name, $desc);
+            $success = $categModel->addCateg($name, $desc);
+            if($success){
+                $this -> redirect("/user/admin-tools/status/addedCategory/id/".$success."");
+            }else{
+                $this -> redirect("/user/admin-tools/status/failedCategory/id/".$success."");
+            }
         }
         
     }

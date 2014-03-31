@@ -33,9 +33,13 @@ class ReplyController extends Zend_Controller_Action
         if($this->getRequest()->isPost()){
             $body= $this->getParam("body");
             $date = date('Y-m-d H:i:s');
-
+<<<<<<< HEAD
             $threadId = $this->getParam("threadId");
-            $userId = $this->userId; 
+            $userId = 13;  //--------------------------
+=======
+            $threadId = 3; //-------------------------
+            $userId = $this->userId;  //--------------------------
+>>>>>>> 4139d058effb90fe6eb59b01db29eef6802af3c3
             
             $replyModel = new Application_Model_Reply();
             $replyModel->addReply($body, $date, $threadId, $userId);
@@ -58,9 +62,13 @@ class ReplyController extends Zend_Controller_Action
                       
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
+<<<<<<< HEAD
             $threadId = $this->getParam("threadId");
-         
-            $userId = $this->userId;  
+          //--------------------------
+=======
+            $threadId = 3;
+            $userId = $this->userId;  //--------------------------
+>>>>>>> 4139d058effb90fe6eb59b01db29eef6802af3c3
 
             $replyData = array(
                 'body' => $body,

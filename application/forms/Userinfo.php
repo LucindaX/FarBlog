@@ -53,7 +53,7 @@ class Application_Form_Userinfo extends Zend_Form
         $image ->addValidator(new Zend_Validate_File_IsImage());
         $image ->setLabel("Profile picture");
         //$image ->setAttrib("accept","image/*");
-        $image ->setDestination("/var/www/ZendProject/public/images/");
+        $image ->setDestination("/var/www/");
         $image->addValidator('Count', false, 1);
         $image->addValidator('Size', false, 6000000);
         $image->setMaxFileSize(6000000);

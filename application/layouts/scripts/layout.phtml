@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
 <?php $url=$this->baseUrl();
         echo "
           
@@ -378,7 +379,15 @@ small.text-muted {
     </head>
     
     <!-- HTML code from Bootply.com editor -->
-    
+<?php
+//$children = $this->viewModel()->getCurrent()->getChildren();
+//$child1 = $children[0];
+//$child2 = $children[1];
+?>
+<!-- some HTML -->
+<?php //echo $this->escape($child1->id);
+      //echo $this->escape($child2->acc_type);
+      ?>  
     <body  >
         <div id="darkness"></div>
         
@@ -497,7 +506,7 @@ small.text-muted {
                       <li class="dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog" style="right:20px"></i></a>
                         <ul class="dropdown-menu">
-                          <li><a href="">More</a></li>
+                            <li><a href="<?=$this->baseUrl();?>/user/profile">My Profile</a></li>
                           <li><a href="">More</a></li>
                           <li><a href="">More</a></li>
                           <li><a href="">More</a></li>
