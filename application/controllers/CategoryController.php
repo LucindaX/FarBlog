@@ -8,12 +8,12 @@ class CategoryController extends Zend_Controller_Action
     
     public function init()
     {
-        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         $this->userId = $this->session->storage->id;
         $this->account_type = $this->session->storage->account_type;
         if(!$authorization->hasIdentity()) {
-            echo "error";
+            $this->redirect("/user");
         }else{
            // $this->redirect("user/add");
         }
@@ -48,7 +48,10 @@ class CategoryController extends Zend_Controller_Action
             $this->view->failed= "Failed to edit  ".$this->getParam("edited");
 
         }
-    }
+
+        $this->view->account_type = $this->session->storage->account_type;
+        
+        }
 
     public function addAction()
     {

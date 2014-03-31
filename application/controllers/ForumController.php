@@ -8,7 +8,7 @@ class ForumController extends Zend_Controller_Action
 
     public function init()
     {
-        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         $this->userId = $this->session->storage->id;
         $this->account_type = $this->session->storage->account_type;

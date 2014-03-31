@@ -9,12 +9,13 @@ class UserController extends Zend_Controller_Action
 
     public function init()
     {
-        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        
+        $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         if(!$authorization->hasIdentity()) {
             echo "error";
         }else{
-            if($account_type == "admin"){
+            if($this->accountType == "admin"){
                 $this->redirect("user/admin-tools");               
             }
         }
@@ -22,7 +23,7 @@ class UserController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
+        $this->forward("/category/ajax-job");
     }
 
     public function loginAction()
@@ -57,7 +58,7 @@ class UserController extends Zend_Controller_Action
                     $this->view->acc = $this->accountType;
                     //$this->layout()->id = $userId;
                     //$this->layout()->account_type = $accountType;
-                    $this->redirect("/user/login");
+                    $this->redirect("/user");
                     
                 } else
                     $this->view->error = "login";
@@ -102,7 +103,8 @@ class UserController extends Zend_Controller_Action
 
     public function adminToolsAction()
     {
-        // action body
+        if($this->session->storage->account_type != "admin")
+            $this->redirect ("/user/index");
     }
 
     public function userajaxAction()
@@ -135,7 +137,7 @@ class UserController extends Zend_Controller_Action
          $this->view->action = "/user/addinfo";
         $profileForm = new Application_Form_Userinfo();
         $this->view->form = $profileForm;
-        if($this->hasParam("id")) $userId=$this->getParam ("userId");
+       $userId = $this->session->storage->id;
          if($this->getRequest()->isPost()){
             
             $fname = $this->getParam("fname");
@@ -207,7 +209,9 @@ class UserController extends Zend_Controller_Action
 
     public function logoutAction()
     {
-        Zend_Auth::getInstance()->clearIdentity();  
+        //Zend_Auth::getInstance()->clearIdentity();
+        unset($this->session->storage->id);
+        unset($this->session->storage->account_type);
         $this->_redirect('/user/index');  
     }
 

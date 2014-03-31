@@ -7,14 +7,14 @@ class ThreadController extends Zend_Controller_Action
     private $userId = null;
 
     public function init() {
-        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         $this->userId = $this->session->storage->id;
         $this->account_type = $this->session->storage->account_type;
         if(!$authorization->hasIdentity()) {
             echo "error";
         }else{
-            $this->redirect("thread/list");
+           
         }
     }
 
@@ -71,6 +71,7 @@ class ThreadController extends Zend_Controller_Action
            else {
                $this->view->forum_id=$forum_id;
                $this->view->forum_name=$forum_name;
+               $this->view->account_type=$this->session->storage->account_type;
            }
             
             
@@ -103,11 +104,11 @@ class ThreadController extends Zend_Controller_Action
             //date_default_timezone_set(date_default_timezone_get());
             $date = date('Y-m-d H:i:s');
             $forum = $this->getParam("forum_id");
-            $userId = 1;  //--------------------------
+  //--------------------------
             
             $threadModel = new Application_Model_Thread();
             //$this->view->thread = $threadModel->addThread($title, $body, $date, $forum, $userId);
-            $success = $threadModel->addThread($title, $body, $date, $forum, $userId);
+            $success = $threadModel->addThread($title, $body, $date, $forum, $this->userId);
             if($success){
                 $this -> redirect("/thread/read/status/addedThread/id/".$success."");
             }else{
@@ -131,13 +132,13 @@ class ThreadController extends Zend_Controller_Action
             $title = $this->getParam("name");           
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
-            $forum = $this->getParam("forum_id");
+
            
+
 
             $threadData = array(
                 'name' => $title,
-                'body' => $body,
-                'forum_id' => $forum,              
+                'body' => $body           
             );
             $threadModel->editThread($threadData, $threadId);
             $this->redirect("/thread/list");
@@ -187,6 +188,9 @@ class ThreadController extends Zend_Controller_Action
             exit();
         }
     }
+    
+    
+    
 
 
 }

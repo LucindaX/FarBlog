@@ -8,7 +8,7 @@ class ReplyController extends Zend_Controller_Action
     
     public function init()
     {
-        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         $this->userId = $this->session->storage->id;
         $this->account_type = $this->session->storage->account_type;
@@ -57,14 +57,13 @@ class ReplyController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
                       
             $body = $this->getParam("body");
-            $date = date('Y-m-d H:i:s');
+            //$date = date('Y-m-d H:i:s');
             $threadId = $this->getParam("threadId");
          
             $userId = $this->userId;  
 
             $replyData = array(
-                'body' => $body,
-                'date' => $date               
+                'body' => $body               
             );
             $replyModel->editReply($replyData, $replyId);
             $this->redirect("/thread/read/threadId/$threadId");
