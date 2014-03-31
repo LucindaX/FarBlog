@@ -119,11 +119,11 @@ class ThreadController extends Zend_Controller_Action
             //date_default_timezone_set(date_default_timezone_get());
             $date = date('Y-m-d H:i:s');
             $forum = $this->getParam("forum_id");
-            $userId = 1;  //--------------------------
+  //--------------------------
             
             $threadModel = new Application_Model_Thread();
             //$this->view->thread = $threadModel->addThread($title, $body, $date, $forum, $userId);
-            $success = $threadModel->addThread($title, $body, $date, $forum, $userId);
+            $success = $threadModel->addThread($title, $body, $date, $forum, $this->userId);
             if($success){
                 $this -> redirect("/thread/read/status/addedThread/id/".$success."");
             }else{
@@ -148,12 +148,12 @@ class ThreadController extends Zend_Controller_Action
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
             $forum = $this->getParam("forum_id");
-            $userId = 1;  //--------------------------
+            //$userId = 1;  //--------------------------
 
             $threadData = array(
                 'name' => $title,
                 'body' => $body,
-                'user_id' => $userId,
+                'user_id' => $this->userId,
                 'forum_id' => $forum,
                 'date' => $date               
             );

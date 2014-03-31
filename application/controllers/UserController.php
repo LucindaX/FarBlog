@@ -207,7 +207,9 @@ class UserController extends Zend_Controller_Action
 
     public function logoutAction()
     {
-        Zend_Auth::getInstance()->clearIdentity();  
+        Zend_Auth::getInstance()->clearIdentity();
+        unset($this->userId);
+        unset($this->accountType);
         $this->_redirect('/user/index');  
     }
 
