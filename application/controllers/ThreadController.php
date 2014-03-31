@@ -7,14 +7,14 @@ class ThreadController extends Zend_Controller_Action
     private $userId = null;
 
     public function init() {
-        $this->sessin = new Zend_Session_Namespace("Zend_Auth");
+        $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         $this->userId = $this->session->storage->id;
         $this->account_type = $this->session->storage->account_type;
         if(!$authorization->hasIdentity()) {
             echo "error";
         }else{
-            $this->redirect("thread/list");
+           
         }
     }
 
@@ -27,52 +27,32 @@ class ThreadController extends Zend_Controller_Action
 
     public function readAction()
     {
-      
-          if($this->hasParam("forum_id")){
+        $model_threads = new Application_Model_Thread();
+        $model_replies = new Application_Model_Reply();
+       
+        if($this->hasParam("threadId")){
+            $form_reply =  new Application_Form_Reply();
+            $threadId=$this->_request->getParam("threadId");
+            $this->view->thread_id = $threadId;
+            $this->view->form=$form_reply;
+        }
+         if($this->getRequest()->isXmlHttpRequest()){  
+            $thread = $model_threads->getThreadById($threadId);
+            $replies = $model_replies->getReplies($threadId);
             
-           $forum_id=$this->_request->getParam("forum_id"); 
-           $database = new Application_Model_Thread();
-           //$results=$database->getThreads($forum_id);
-           $page = $this->_request->getParam('page');
-           if (empty($page)) { $page = 1; }
+            $arr=array("thread"=>$thread,"replies"=>$replies);
            
-            $paginator = $database->getOnePage($forum_id,$page);
-            $this->view->paginator = $paginator;
-            Zend_Registry::set('pag', $paginator);
-            
-           $arr=array();
-           /*    foreach ($paginator as $thread){
-               $latestreply=$database->getlatestReply($thread["id"]);
-               $thread["latestpost"]=$latestreply;
-               $arr[]=$thread;
-               }*/    
-           
-           
-           
-          if($this->getRequest()->isXmlHttpRequest()){
-              Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
-               return $this->_helper->json->sendJson($paginator);
-               exit;
-          }
-           
-           else {
-               $this->view->forum_id=$forum_id;
+           return $this->_helper->json->sendJson($arr);
+           exit;
            }
             
-            
-            
-          }
-           
-       
-        
-        
     }
 
     public function listAction()
     {
         // action body
           if($this->hasParam("forum_id")){
-            
+           $forum_name=$this->getParam("forum_name"); 
            $forum_id=$this->_request->getParam("forum_id"); 
            $database = new Application_Model_Thread();
            $results=$database->getThreads($forum_id);
@@ -90,11 +70,15 @@ class ThreadController extends Zend_Controller_Action
            
            else {
                $this->view->forum_id=$forum_id;
+               $this->view->forum_name=$forum_name;
            }
             
             
             
           }
+          /* $paginator = $database->getOnePage($forum_id,$page);
+            $this->view->paginator = $paginator;
+            Zend_Registry::set('pag', $paginator); */
         
     }
 
@@ -147,17 +131,16 @@ class ThreadController extends Zend_Controller_Action
             $title = $this->getParam("name");           
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
-            $forum = $this->getParam("forum_id");
-            //$userId = 1;  //--------------------------
+
+           
+
 
             $threadData = array(
                 'name' => $title,
-                'body' => $body,
-                'user_id' => $this->userId,
-                'forum_id' => $forum,
-                'date' => $date               
+                'body' => $body           
             );
             $threadModel->editThread($threadData, $threadId);
+            $this->redirect("/thread/list");
         } else {
           
             $threadData = $threadModel->getThreadById($threadId);
@@ -168,8 +151,51 @@ class ThreadController extends Zend_Controller_Action
 
     }
 
+    public function deleteAction()
+    {
+               
+
+        if($this->hasParam("threadId")){
+            
+           $model =  new Application_Model_Thread();
+           echo $model->deleteThread($this->getParam("threadId"));
+            exit();
+        }
+    }
+
+    public function lockAction()
+            
+    {
+       
+
+        if($this->hasParam("threadId")){
+            
+           $model =  new Application_Model_Threadslocked();
+           echo $model->lockThread($this->getParam("threadId"));
+            exit();
+        }
+    }
+
+    public function unlockAction()
+    {
+            
+
+       if($this->hasParam("threadId")){
+            
+           $model =  new Application_Model_Threadslocked();
+           echo $model->unlockThread($this->getParam("threadId"));
+            exit();
+        }
+    }
+
 
 }
+
+
+
+
+
+
 
 
 

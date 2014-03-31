@@ -378,16 +378,7 @@ small.text-muted {
         </style>
     </head>
     
-    <!-- HTML code from Bootply.com editor -->
-<?php
-//$children = $this->viewModel()->getCurrent()->getChildren();
-//$child1 = $children[0];
-//$child2 = $children[1];
-?>
-<!-- some HTML -->
-<?php //echo $this->escape($child1->id);
-      //echo $this->escape($child2->acc_type);
-      ?>  
+ 
     <body  >
         <div id="darkness"></div>
         
@@ -428,15 +419,31 @@ small.text-muted {
                         <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a>
                       </li>
                       <li>
-                        <a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> Post</a>
+                        <?php $userInfo = new Zend_Session_Namespace('Zend_Auth');  
+                    
+                        if(isset($userInfo->storage->id)){
+                             //reditrect to login popup
+                         } 
+                      echo "  <a href='$url/thread/add' role='button' data-toggle='modal'><i class='glyphicon glyphicon-plus'></i> Post</a>";
+                      ?>
+                       </li>
+                      <?php if(isset($userInfo->storage->id)){
+                            if($userInfo->storage->account_type == "admin")
+                   echo "   <li>
+                          <a href='$url/user/admin-tools' role='button' data-toggle='modal'><i class='glyphicon glyphicon-wrench'></i>Admin Tools</a>  
                       </li>
+                      
+                      ";
+                      }?>
+                            
                       <li>
-                          <a href='<?= $url?>/user/admin-tools' role="button" data-toggle="modal"><i class="glyphicon glyphicon-wrench"></i>Admin Tools</a>  
-                      </li>
-		
-                      <li>
-                          <a id="modal_trigger" href="#modal"><i class="glyphicon glyphicon-user">&nbsp&nbsp;</i>Login/SignUp</a>
-				<div id="modal" class="popupContainer" style="display:none;">
+                          <?php if(!isset($userInfo->storage->id))
+                 echo"         <a id='modal_trigger' href='#modal'><i class='glyphicon glyphicon-user'>&nbsp&nbsp;</i>Login/SignUp</a>";
+			
+                          else                  echo"   <a id='modal_trigger' href='$url/user/logout'>SignOut</a>";
+                            ?>
+                          
+                          <div id="modal" class="popupContainer" style="display:none;">
 		<header class="popupHeader">
 			<span class="header_title" style="color:#666">Login</span>
 			<span class="modal_close" onclick="cls();"><i class="fa fa-times"></i></span>

@@ -48,7 +48,7 @@
              foo="unlock";
             }
              
-       content+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+data[i].id+"<td><i class='glyphicon glyphicon-list-alt' title='Forum' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/list/forum_id/"+data[i].id+"'>"+data[i].name+"</a><br>"+data[i].description+"</div></td><td>"+data[i].threads+"</td><td>"+data[i].posts+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
+       content+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+data[i].id+"<td><i class='glyphicon glyphicon-list-alt' title='Forum' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/list/forum_id/"+data[i].id+"/forum_name/"+data[i].name+"'>"+data[i].name+"</a><br>"+data[i].description+"</div></td><td>"+data[i].threads+"</td><td>"+data[i].posts+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
                     "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req(this.id,'edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req(this.id,'delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.id,this.title,"+data[i].id+");\"></i></li></ul></td></tr>";          
       
             col="";

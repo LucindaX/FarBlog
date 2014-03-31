@@ -99,9 +99,16 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
     
     
        function getThreadById($threadId){
-        $select = $this->select()->where("threads.id = $threadId");
-        return $this->fetchRow($select)->toArray();
-    }
+        $select = $this->select()
+                  ->setIntegrityCheck(false)
+                  ->from("threads as Th",array('Th.id',"Th.name as title","Th.body","Th.date","users.username","users.id","users.date_joined","users.country as location","users.image") )
+                  ->join("users","Th.user_id=users.id",array())
+                  ->where("Th.id = $threadId");
+                
+        return $this->fetchAll($select)->toArray();
+    
+        
+       }
             
     function addThread($title, $body, $date, $forum, $userId){
         $row = $this->createRow(); 
@@ -115,9 +122,16 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
     }
     
     function editThread($threadData, $threadId){
-        $this->update($threadData, "threads.id = $threadId");
+       return $this->update($threadData, "threads.id = $threadId");
     }
     
+    function deleteThread($threadId){
+        
+        return $this->delete("id=$threadId"); 
+        
+    }
+    
+  
 
 }
 
