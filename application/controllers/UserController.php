@@ -136,21 +136,23 @@ class UserController extends Zend_Controller_Action
 
     public function addinfoAction()
     {
-         $this->view->action = "/user/addinfo";
+        $this->view->action = "/user/addinfo";
         $profileForm = new Application_Form_Userinfo();
         $this->view->form = $profileForm;
-       $userId = $this->session->storage->id;
-         if($this->getRequest()->isPost()){
-            
+        $userId = $this->session->storage->id;
+        if ($this->getRequest()->isPost()) {
             $fname = $this->getParam("fname");
-            $lname= $this->getParam("lname");
-            $gender= $this->getParam("gender");
+            $lname = $this->getParam("lname");
+            $gender = $this->getParam("gender");
             $image = $this->getParam("image");
+            
             if ($profileForm->isValid($this->getRequest()->getParams())) {
                 if ($profileForm->image->receive()) {
                     $location = $profileForm->image->getFileName();
+                    $index =  strpos($location,'images');
+                    $image = substr($location,$index-1);
                 }
-            } 
+            }
 
             $userData = array(
                 'fname' => $fname,
@@ -160,7 +162,8 @@ class UserController extends Zend_Controller_Action
             );
             $userModel = new Application_Model_User();
             $userModel->addInfo($userData, $userId);
-         }
+            $this->redirect("/user/profile");///id/".$userId."");
+        }
     }
 
     public function editinfoAction()
@@ -169,27 +172,36 @@ class UserController extends Zend_Controller_Action
         $profileForm = new Application_Form_Userinfo();
         $this->view->form = $profileForm;
         $userModel = new Application_Model_User();
-        $userId = $this->getParam("userId");
+        $userId = $this->session->storage->id;
         
-        if ($this->getRequest()->isPost()) {
-            
-         
+        if ($this->getRequest()->isPost()) {         
             $username = $this->getParam("username");
             $fname = $this->getParam("fname");
             $lname = $this->getParam("lname");
             $gender = $this->getParam("gender");
             $email = $this->getParam("email");
             $password = $this->getParam("password");
+            $image = $this->getParam("image");
+            
+            if ($profileForm->isValid($this->getRequest()->getParams())) {
+                if ($profileForm->image->receive()) {
+                    $location = $profileForm->image->getFileName();
+                    $index =  strpos($location,'images');
+                    $image = substr($location,$index-1);
+                }
+            }
             $userData = array(
                 'username' => $username,
                 'fname' => $fname,
                 'lname' => $lname,
                 'gender' => $gender,
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'image' => $image
                // 'country' => $country
             );
             $userModel->editUserInfo($userData, $userId);
+            $this->redirect("/user/profile");///id/".$userId."");
         } else {
             
             $userData = $userModel->getUserById($userId);
@@ -200,12 +212,13 @@ class UserController extends Zend_Controller_Action
 
     public function profileAction()
     {
-        if($this->hasParam('id')){
+        //if($this->hasParam('id')){
             $userModel = new Application_Model_User();
-            $userId = $this->_request->getParam('id');
+            //$userId = $this->_request->getParam('id');
+            $userId = $this->session->storage->id;
             $userData = $userModel->getUserById($userId);
             $this->view->userData = $userData;
-         }
+        // }
     
     }
 
