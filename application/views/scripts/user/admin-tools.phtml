@@ -41,9 +41,11 @@
 			</table>
 		</div>
 	</div>
+   
 </div>
 
 <script>
+    console.log( <?= $this->check?>);
     
     $(".panel-body").hover(
   function() {
@@ -115,10 +117,34 @@
        var checkBox = document.getElementById("checkBox");
        if(checkBox.checked){
            //alert("true");
-           window.location.href="/ZendProject/public/user/profile/lock/true";
+             $.get("/ZendProject/public/user/userajax/lock/true",function(data,status){
+            console.log(data);
+           if(status != 400 && status != 404){
+               
+           notification("System Locked","#57E964");
+           
+               
+            }
+            
+            else notification("Failed To Lock System","#F75D59");
+            
+            
+        });
        }else{
            //alert("false");
-           window.location.href="/ZendProject/public/user/profile/lock/false";
+         $.get("/ZendProject/public/user/userajax/lock/false",function(data,status){
+            console.log(data);
+           if(status != 400 && status != 404){
+               
+           notification("System UnLocked","#57E964");
+           
+               
+            }
+            
+            else notification("Failed To UnLock System","#F75D59");
+            
+            
+        });
        }
     }
     

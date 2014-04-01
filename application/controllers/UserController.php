@@ -4,10 +4,14 @@ class UserController extends Zend_Controller_Action
 {
 
     private $session = null;
-    private $accountType = null;    
+
+    private $accountType = null;
+
     private $userId = null;
-    private $lockSystem;
-    private $frontController;
+
+    private $lockSystem = null;
+
+    private $frontController = null;
 
     public function init()
     {
@@ -27,13 +31,14 @@ class UserController extends Zend_Controller_Action
     public function indexAction()
     {
         
-    $url=$this->view->baseUrl();
-      $this->redirect("/category/ajax-job");
+        echo $this->getParam("status");
+    //$url=$this->view->baseUrl();
+     // $this->redirect("/category/ajax-job");
     }
 
     public function loginAction()
     {
-    
+      
       if($this->_request->getParam("error") != null){  
          $this->view->error= "signup";          
       }         
@@ -50,18 +55,29 @@ class UserController extends Zend_Controller_Action
                     //$this->_helper->FlashMessenger('Successful Login');
                     $auth = Zend_Auth::getInstance();
                     $storage = $auth->getStorage();
-                    $storage->write($authAdapter->getResultRowObject(array('id', 'account_type', 'email')));                   
+                    $storage->write($authAdapter->getResultRowObject(array('id', 'account_type', 'status')));                   
                     $dbData = $auth->getStorage()->read();
                     $this->accountType = $dbData-> account_type;
                     $this->userId = $dbData->id;
-                    $this->lockSystem = Zend_Registry::get('lockSystem');
+                    $status = $dbData->status;
                     
-                    if($this->lockSystem == "on" && $this->accountType == "normal"){
-						unset($this->session->storage->id);
-        				unset($this->session->storage->account_type);                        
-						$this->redirect("/user/logout");
+                    $this->view->id = $this->userId;
+                    $this->view->acc = $this->accountType;
+                    $this->view->status = $status;
+                    
+                    $user = new Application_Model_User();
+                    $changeStatus = array('status' => 'online');
+                    $user->changeStatus($changeStatus, $this->userId);
+                    
+                    
+
+                    $lockStatus = new Application_Model_LockSystem();
+                    $lockSys = $lockStatus->getLockStatus();
+                    $this->view->lock = $lockSys;
+                    if($lockSys["status"] == "locked" && $this->accountType == "normal"){                      
+			$this->redirect("/user/logout");
                     }
-                    $this->redirect("/user");
+                    $this->redirect("/user/login");
                     
                 } else
                     $this->view->error = "login";
@@ -113,6 +129,8 @@ class UserController extends Zend_Controller_Action
     public function userajaxAction()
     {
        $object = new Application_Model_User();
+       $lockSystem = new Application_Model_LockSystem();
+       
        if($this->hasParam("read")){
        $arr=$object->getUsers();
        return $this->_helper->json->sendJson($arr);
@@ -133,12 +151,16 @@ class UserController extends Zend_Controller_Action
             exit;          
        }else if ($this->hasParam("lock")) {
            $check = $this->_request->getParam("lock");
+           $this->view->check = $check;
            if($check == "true"){
-               Zend_Registry::set('lockSystem', "on");
+               $status = array('status' => 'locked');
+               $lockSystem->lockSystem($status);
            }
            else{
-               Zend_Registry::set('lockSystem', "off");
+               $status = array('status' => 'unlocked');
+               $lockSystem->lockSystem($status);
            }
+           exit;
         }
     }
 
@@ -153,6 +175,7 @@ class UserController extends Zend_Controller_Action
             $lname = $this->getParam("lname");
             $gender = $this->getParam("gender");
             $image = $this->getParam("image");
+            $country = $this->getParam("country");
             
             if ($profileForm->isValid($this->getRequest()->getParams())) {
                 if ($profileForm->image->receive()) {
@@ -166,7 +189,8 @@ class UserController extends Zend_Controller_Action
                 'fname' => $fname,
                 'lname' => $lname,
                 'gender' => $gender,
-                'image' => $image
+                'image' => $image,
+                'country'=>$country
             );
             $userModel = new Application_Model_User();
             $userModel->addInfo($userData, $userId);
@@ -220,15 +244,18 @@ class UserController extends Zend_Controller_Action
 
     public function profileAction()
     {
-       /* //if($this->hasParam('id')){
-            $userModel = new Application_Model_User();
-            //$userId = $this->_request->getParam('id');
+        $userModel = new Application_Model_User();
+        if($this->hasParam('id')){         
+            $userId = $this->_request->getParam('id');
+        }else{
+            if(isset($this->session->storage->id)){
             $userId = $this->session->storage->id;
+            }
+        }
             $userData = $userModel->getUserById($userId);
             $this->view->userData = $userData;
             $this->view->lock = $this->lockSystem;
-        // }*/
-        if ($this->hasParam("lock")) {
+       /* if ($this->hasParam("lock")) {
            $check = $this->_request->getParam("lock");
            if($check == "true"){
                Zend_Registry::set('lockSystem', "on");
@@ -238,20 +265,31 @@ class UserController extends Zend_Controller_Action
            }
         }
         $this->lockSystem = Zend_Registry::get('lockSystem');
-        $this->view->lock = $this->lockSystem;
+        $this->view->lock = $this->lockSystem;*/
     
     }
 
     public function logoutAction()
     {
         //Zend_Auth::getInstance()->clearIdentity();
+        $user = new Application_Model_User();
+        $changeStatus = array('status' => 'offline');
+        $user->changeStatus($changeStatus, $this->session->storage->id);
+        
         unset($this->session->storage->id);
         unset($this->session->storage->account_type);
         $this->_redirect('/user/index');  
     }
 
+    public function locksystemAction()
+    {
+        // action body
+    }
+
 
 }
+
+
 
 
 

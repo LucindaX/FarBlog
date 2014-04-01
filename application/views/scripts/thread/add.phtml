@@ -3,7 +3,7 @@
 <div class="row clearfix">
 <div class="col-md-4 column" style='margin-top:100px;'>
 <div id="form" style="display: block;">
- <form id="form1">
+    <form id="form1" action="<?php echo $this->baseUrl().$this->action ?>" method="post">
         <?=$this->form->name ?>
         <?=$this->form->body ?>
         <?=$this->form->forum_id ?>
@@ -12,7 +12,10 @@
             echo $this->form->edit;
         }else{
             echo $this->form->add;
-        } ?>
+        } 
+        
+        //echo $this->array;
+        ?>
  </form> 
 </div>
 </div>
