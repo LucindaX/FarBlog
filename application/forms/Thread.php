@@ -12,6 +12,7 @@ class Application_Form_Thread extends Zend_Form
         
         $body = new Zend_Form_Element_Textarea("body");
         $body ->addValidator(new Zend_Validate_Alnum);
+        $body->setAttrib("rows", 5);
         $body ->setLabel("Body");
         $body ->setAttrib("id", "body");
 
@@ -25,11 +26,11 @@ class Application_Form_Thread extends Zend_Form
         }
         $forum ->setAttrib('style', 'width: 175px;');
         
-        $add =new Zend_Form_Element_Button("add");
+        $add =new Zend_Form_Element_Submit("add");
         //$add ->setAttrib('onclick', 'ajaxAdd();');
         $add ->setLabel("Add");
         
-        $addEdit =new Zend_Form_Element_Button("edit");
+        $addEdit =new Zend_Form_Element_Submit("edit");
         //$addEdit ->setAttrib('onclick', 'ajaxEdit();');
         $addEdit ->setLabel("Edit");
         

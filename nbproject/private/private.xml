@@ -3,12 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/ZendProject/application/forms/Userinfo.php</file>
+            <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
+            <file>file:/var/www/ZendProject/application/forms/Reply.php</file>
             <file>file:/var/www/ZendProject/application/controllers/UserController.php</file>
-            <file>file:/var/www/ZendProject/application/views/scripts/user/profile.phtml</file>
-            <file>file:/var/www/ZendProject/application/views/scripts/user/addinfo.phtml</file>
             <file>file:/var/www/ZendProject/application/Bootstrap.php</file>
             <file>file:/var/www/ZendProject/application/forms/Thread.php</file>
+            <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
+            <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/profile.phtml</file>
             <file>file:/var/www/ZendProject/application/controllers/ReplyController.php</file>
             <file>file:/var/www/ZendProject/tests/phpunit.xml</file>
             <file>file:/var/www/ZendProject/application/views/scripts/user/admin-tools.phtml</file>
@@ -37,6 +39,7 @@
             <file>file:/var/www/ZendProject/application/models/Forum.php</file>
             <file>file:/var/www/ZendProject/application/views/scripts/user/editinfo.phtml</file>
             <file>file:/var/www/ZendProject/application/forms/Category.php</file>
+
 
         </group>
     </open-files>

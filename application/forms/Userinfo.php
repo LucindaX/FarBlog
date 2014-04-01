@@ -45,9 +45,6 @@ class Application_Form_Userinfo extends Zend_Form
         //$password ->addValidator(new Zend_Validate_StringLength); //put a max length for pw its place is in registeration
         $password ->setLabel("Password");
         
-
-//->setDestination(BASE_PATH . '/data/uploads')
-//->setRequired(true);
         
         $image = new Zend_Form_Element_File("image");
         $image ->addValidator(new Zend_Validate_File_IsImage());
@@ -58,6 +55,9 @@ class Application_Form_Userinfo extends Zend_Form
         $image->addValidator('Size', false, 6000000);
         $image->setMaxFileSize(6000000);
         $image->addValidator('Extension', false, 'jpg,png,gif,jpeg');
+        
+
+        
         
         $button = new Zend_Form_Element_Submit("btnAdd");
         $button ->setLabel("Add");

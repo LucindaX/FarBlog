@@ -143,6 +143,10 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
      function updateVisits($threadId){
          return $this->update(array("visits"=>  new Zend_Db_Expr('visits + 1')),"threads.id=$threadId");
      }
+     function uniqueName($threadName){
+        $select = $this->select()->where("threads.name = '$threadName'");
+        return $this->fetchRow($select);
+     }
 
 }
 

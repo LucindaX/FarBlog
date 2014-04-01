@@ -18,7 +18,10 @@
 				</div>  
                                 <div class="panel-body" onclick="getThreads();">
 					Administrative browsing 
-				</div>  
+				</div> 
+                                <div class="panel-body" onclick="lockSystem();">
+					Lock System 
+				</div>                                 
                                 <div class="panel-body">
 					Back Home
 				</div>  
@@ -30,14 +33,19 @@
 			<div class="btn-group">
 				 <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-left"></em> Left</button> <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-center"></em> Center</button> <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-right"></em> Right</button> <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-justify"></em> Justify</button>
 			</div>
+                         <div class="checkbox" id="lock" style="display:none; margin:10px; width:200px; height:40px; padding:5px;">
+                             <label style="font-size: 18px; text-align:center;"><input type="checkbox" id="checkBox" onchange="getCheckBoxValue();"/> Lock the entire system </label>
+                         </div>
 			<table id="mytable" class="table table-hover table-bordered">
 				
 			</table>
 		</div>
 	</div>
+   
 </div>
 
 <script>
+    console.log( <?= $this->check?>);
     
     $(".panel-body").hover(
   function() {
@@ -98,6 +106,46 @@
     
        window.location.href='/ZendProject/public/category/ajax-job';
     
+    }
+    
+    function lockSystem(){
+    
+       var lockCheck = document.getElementById("lock");
+       lockCheck.style.display="block";
+    }
+    function  getCheckBoxValue(){
+       var checkBox = document.getElementById("checkBox");
+       if(checkBox.checked){
+           //alert("true");
+             $.get("/ZendProject/public/user/userajax/lock/true",function(data,status){
+            console.log(data);
+           if(status != 400 && status != 404){
+               
+           notification("System Locked","#57E964");
+           
+               
+            }
+            
+            else notification("Failed To Lock System","#F75D59");
+            
+            
+        });
+       }else{
+           //alert("false");
+         $.get("/ZendProject/public/user/userajax/lock/false",function(data,status){
+            console.log(data);
+           if(status != 400 && status != 404){
+               
+           notification("System UnLocked","#57E964");
+           
+               
+            }
+            
+            else notification("Failed To UnLock System","#F75D59");
+            
+            
+        });
+       }
     }
     
     function notification(message,color){

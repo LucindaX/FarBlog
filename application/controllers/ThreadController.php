@@ -151,22 +151,25 @@ class ThreadController extends Zend_Controller_Action
         $this->view->action = "/thread/add";
         $threadForm = new Application_Form_Thread();
         $this->view->form = $threadForm;
+        $threadModel = new Application_Model_Thread();
         
         if($this->getRequest()->isPost()){
             $title = $this->getParam("name");
             $body= $this->getParam("body");
-            //date_default_timezone_set(date_default_timezone_get());
             $date = date('Y-m-d H:i:s');
             $forum = $this->getParam("forum_id");
-  //--------------------------
             
-            $threadModel = new Application_Model_Thread();
-            //$this->view->thread = $threadModel->addThread($title, $body, $date, $forum, $userId);
-            $success = $threadModel->addThread($title, $body, $date, $forum, $this->userId);
+            
+            $checkName = $threadModel->uniqueName($title);
+            if($checkName){
+                $this->redirect("/thread/add");
+            }
+            
+            $success = $threadModel->addThread($title, $body, $date, $forum, $this->session->storage->id);
             if($success){
-                $this -> redirect("/thread/read/status/addedThread/id/".$success."");
+                $this -> redirect("/thread/read/threadId/".$success."");
             }else{
-                $this -> redirect("/thread/read/status/failedThread/id/".$success."");
+                $this -> redirect("/thread/read/threadId/".$success."");
             }
         }
     }
@@ -187,8 +190,10 @@ class ThreadController extends Zend_Controller_Action
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
 
-           
-
+            /*$checkName = $threadModel->uniqueName($title);
+            if(count($checkName)){
+                $this->redirect("/thread/edit"); //---------------
+            }*/
 
             $threadData = array(
                 'name' => $title,

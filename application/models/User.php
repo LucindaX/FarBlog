@@ -43,6 +43,10 @@ class Application_Model_User extends Zend_Db_Table_Abstract
     function unbanUser($userId){
         return $this->update(array("status"=>"offline"),"id=$userId");
     }
+    
+    function changeStatus($status, $userId){
+         return $this->update($status, "users.id = $userId");
+    }
 
 }
 

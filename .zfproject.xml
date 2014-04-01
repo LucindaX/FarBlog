@@ -21,6 +21,7 @@
           <actionMethod actionName="editinfo"/>
           <actionMethod actionName="profile"/>
           <actionMethod actionName="logout"/>
+          <actionMethod actionName="locksystem"/>
         </controllerFile>
         <controllerFile controllerName="Category">
           <actionMethod actionName="index"/>
@@ -75,6 +76,7 @@
         <modelFile modelName="Reply"/>
         <modelFile modelName="Forumslocked"/>
         <modelFile modelName="Threadslocked"/>
+        <modelFile modelName="LockSystem"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <servicesDirectory enabled="false"/>
@@ -181,6 +183,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Thread">
             <viewScriptFile forActionName="unstick"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="locksystem"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
