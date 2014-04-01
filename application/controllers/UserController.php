@@ -212,13 +212,13 @@ class UserController extends Zend_Controller_Action
 
     public function profileAction()
     {
-        //if($this->hasParam('id')){
+        if($this->hasParam('id')){
             $userModel = new Application_Model_User();
-            //$userId = $this->_request->getParam('id');
+            $userId = $this->_request->getParam('id');
             $userId = $this->session->storage->id;
             $userData = $userModel->getUserById($userId);
             $this->view->userData = $userData;
-        // }
+         }
     
     }
 
