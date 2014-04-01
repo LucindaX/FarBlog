@@ -74,7 +74,7 @@
          var catDiv;
          var editpanel;
             for(var i in data){
-                
+                console.log(data);
                  mynot=document.createElement("div");
                  mynot.id="notify";
                  mynot.className="notification";
@@ -123,7 +123,7 @@
     
     <?php 
     
-    if(isset($this->account_type))
+    
         if($this->account_type == "admin"){
    echo "        
    function req(cat_id,operation,forum_id){

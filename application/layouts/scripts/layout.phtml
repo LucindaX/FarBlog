@@ -463,7 +463,7 @@ small.text-muted {
                     </form>
                     <ul class="nav navbar-nav">
                       <li>
-                        <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a>
+                        <a href="<?= $this->baseUrl()?>/user/index"><i class="glyphicon glyphicon-home"></i> Home</a>
                       </li>
                       <li>
                         <?php $userInfo = new Zend_Session_Namespace('Zend_Auth');  
@@ -471,7 +471,7 @@ small.text-muted {
                         if(isset($userInfo->storage->id)){
                              //reditrect to login popup
                          } 
-                      echo "  <a href='$url/thread/add' role='button' data-toggle='modal'><i class='glyphicon glyphicon-plus'></i> Post</a>";
+                      echo "  <a href='$url/thread/add' onclick=\"return postclick();\" role='button' data-toggle='modal'><i class='glyphicon glyphicon-plus'></i> Post</a>";
                       ?>
                        </li>
                       <?php if(isset($userInfo->storage->id)){
@@ -752,7 +752,11 @@ $('[data-toggle=offcanvas]').click(function() {
         document.getElementById("signincheck").innerHTML="";   
         document.getElementById("signupcheck").innerHTML="";   
        }; 
-        
+       
+       <?php if(isset($userInfo->storage->id))
+           echo "function postclick(){ return true; } ;";
+           else echo "function postclick(){  document.getElementById('modal_trigger').click(); return false;};"
+        ?>
         </script>
         
     </body>

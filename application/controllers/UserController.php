@@ -26,7 +26,9 @@ class UserController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->forward("/category/ajax-job");
+        
+    $url=$this->view->baseUrl();
+      $this->redirect("/category/ajax-job");
     }
 
     public function loginAction()

@@ -29,7 +29,7 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
      
          $sql =  $this ->select()
              ->setIntegrityCheck(false)
-             ->from('threads as TH',array("TH.id","TH.name","TH.body","TH.date","TH.visits","TH.sticky","TL.thread_id as locked","U.username as startedBy"))
+             ->from('threads as TH',array("TH.id","TH.name","TH.body","TH.date","TH.visits","TH.sticky","TL.thread_id as locked","U.username as startedBy","U.id as userid"))
              ->joinLeft('threads_locked as TL','TH.id = TL.thread_id',array())
              ->join("users as U","U.id=TH.user_id",array() )    
              ->where("TH.forum_id=$forum_id")
@@ -55,7 +55,7 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
             $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbTableSelect($sql)
     );
-    $paginator->setItemCountPerPage(4);
+    $paginator->setItemCountPerPage(1);
     $paginator->setCurrentPageNumber($page);
     return $paginator;
            
@@ -131,7 +131,17 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
         
     }
     
+    function stickThread($threadId){
+        return $this->update(array("sticky"=> "true"), "threads.id=$threadId");
+    }
+    
+     function unstickThread($threadId){
+        return $this->update(array("sticky"=> "false"), "threads.id=$threadId");
+    }
   
+     function updateVisits($threadId){
+         return $this->update(array("visits"=>  new Zend_Db_Expr('visits + 1')),"threads.id=$threadId");
+     }
 
 }
 
