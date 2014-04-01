@@ -34,6 +34,7 @@ class ThreadController extends Zend_Controller_Action
        
         if($this->hasParam("threadId")){
             if($this->hasParam("page")) $page=$this->getParam ("page");
+           
               else $page=1;
              $threadId=$this->_request->getParam("threadId"); 
            
@@ -43,10 +44,13 @@ class ThreadController extends Zend_Controller_Action
             //$thread[]=$replies;
            // $arr=array("replies"=>$replies,"thread"=>$thread);
            
+             if($this->hasParam("locked")) $this->view->locked=$this->getParam("locked");
             
             $this->view->thread_id = $threadId;
             if(isset($this->session->storage->id))
             $this->view->user_id=$this->session->storage->id;
+            
+            
             
             $paginator = Zend_Paginator::factory($replies);
             $paginator->setItemCountPerPage(4);
@@ -90,11 +94,14 @@ class ThreadController extends Zend_Controller_Action
            $forum_name=$this->getParam("forum_name"); 
            $forum_id=$this->_request->getParam("forum_id"); 
            $database = new Application_Model_Thread();
+           $ReplyData= new Application_Model_Reply();
            $results=$database->getThreads($forum_id);
            $arr=array();
               foreach ($results as $thread){
                $latestreply=$database->getlatestReply($thread["id"]);
+               $replyCount = $ReplyData->getReplyCount($thread["id"]);
                $thread["latestpost"]=$latestreply;
+               $thread["replycount"]=$replyCount;
                $arr[]=$thread;
                }
             $paginator = Zend_Paginator::factory($arr);

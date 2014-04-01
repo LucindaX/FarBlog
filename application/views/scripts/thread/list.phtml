@@ -51,7 +51,7 @@
             var foo = "lock";
             var stickyimg="";
             var sticky = "stick";
-            
+            var lockedor = "";
             for(var i in data ){
             
             if(data[i].latestpost.length > 0){
@@ -65,7 +65,7 @@
              
              
             if(data[i].locked != null){
-                
+             lockedor="locked/true";   
              col=" class='danger' ";
              foo="unlock";
             }
@@ -76,12 +76,12 @@
             }
             
             if(data[i].userid == user_id)
-                stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].id+"</td><td>"+latestpost+"</td><td id='mypanel'>"+
+                stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"/"+lockedor+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].replycount[0].replycount+"</td><td>"+latestpost+"</td><td id='mypanel'>"+
                     "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"mypost('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"mypost('delete',"+data[i].id+");\"></i></li></ul></td></tr>";          
         
                 
             else 
-          stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].id+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
+          stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"/"+lockedor+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].replycount[0].replycount+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
                     "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req('delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.title,"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-tag' title='"+sticky+"'  id="+id+" onclick=\"req('"+sticky+"',"+data[i].id+");\"></i></li></ul></td></tr>";          
        
             
@@ -90,6 +90,7 @@
             foo="lock";
             stickyimg="";
             sticky="stick";
+            lockedor="";
         
         }
         
@@ -118,7 +119,7 @@
         
             function(data){
                 console.log(data);
-               if(data > 0){
+               if(data > 0 || (operation == 'lock' && data == 0)){
                 notification('Thread was Successfully '+operation+'ed','#57E964');
                 getThreads(id);
                 

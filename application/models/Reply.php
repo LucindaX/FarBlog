@@ -33,12 +33,19 @@ class Application_Model_Reply extends Zend_Db_Table_Abstract
         
           $select = $this->select()
                   ->setIntegrityCheck(false)
-                  ->from("replies as Th",array("Th.thread_id","Th.id","Th.body as title","Th.date","users.image","users.username","users.id as user_id","users.date_joined","users.country as location") )
+                  ->from("replies as Th",array("Th.thread_id","Th.id","Th.body as body","Th.date","users.image","users.username","users.id as user_id","users.date_joined","users.country as location") )
                   ->join("users","Th.user_id=users.id",array())
                   ->where("Th.thread_id=$threadId")
                   ->order("date ASC");
                 
         return $this->fetchAll($select)->toArray();
+        
+    }
+    function getReplyCount($threadId){
+        
+        $select= $this->select()->from("replies",array("count(*) as replycount"))->where("thread_id =$threadId");
+        return $this->fetchAll($select)->toArray();
+        
         
     }
     
