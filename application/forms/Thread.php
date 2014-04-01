@@ -12,6 +12,7 @@ class Application_Form_Thread extends Zend_Form
         
         $body = new Zend_Form_Element_Textarea("body");
         $body ->addValidator(new Zend_Validate_Alnum);
+        $body->setAttrib("rows", 5);
         $body ->setLabel("Body");
         $body ->setAttrib("id", "body");
 

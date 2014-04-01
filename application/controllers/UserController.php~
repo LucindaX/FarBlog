@@ -7,12 +7,10 @@ class UserController extends Zend_Controller_Action
     private $accountType = null;    
     private $userId = null;
     private $lockSystem;
-    private $frontController;
 
     public function init()
     {
         $this->lockSystem = Zend_Registry::get('lockSystem');
-        //$frontController = Zend_Controller_Front::getInstance();
         $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
         if(!$authorization->hasIdentity()) {
@@ -52,8 +50,7 @@ class UserController extends Zend_Controller_Action
                     $dbData = $auth->getStorage()->read();
                     $this->accountType = $dbData-> account_type;
                     $this->userId = $dbData->id;
-                    $this->lockSystem = Zend_Registry::get('lockSystem');
-                    
+ 					$this->lockSystem = Zend_Registry::get('lockSystem');
                     if($this->lockSystem == "on" && $this->accountType == "normal"){
 						unset($this->session->storage->id);
         				unset($this->session->storage->account_type);                        
@@ -231,7 +228,7 @@ class UserController extends Zend_Controller_Action
            if($check == "true"){
                Zend_Registry::set('lockSystem', "on");
            }
-           else if($check == "false"){
+           else{
                Zend_Registry::set('lockSystem', "off");
            }
         }

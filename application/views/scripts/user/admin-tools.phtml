@@ -18,7 +18,10 @@
 				</div>  
                                 <div class="panel-body" onclick="getThreads();">
 					Administrative browsing 
-				</div>  
+				</div> 
+                                <div class="panel-body" onclick="lockSystem();">
+					Lock System 
+				</div>                                 
                                 <div class="panel-body">
 					Back Home
 				</div>  
@@ -30,6 +33,9 @@
 			<div class="btn-group">
 				 <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-left"></em> Left</button> <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-center"></em> Center</button> <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-right"></em> Right</button> <button class="btn btn-default" type="button"><em class="glyphicon glyphicon-align-justify"></em> Justify</button>
 			</div>
+                         <div class="checkbox" id="lock" style="display:none; margin:10px; width:200px; height:40px; padding:5px;">
+                             <label style="font-size: 18px; text-align:center;"><input type="checkbox" id="checkBox" onchange="getCheckBoxValue();"/> Lock the entire system </label>
+                         </div>
 			<table id="mytable" class="table table-hover table-bordered">
 				
 			</table>
@@ -98,6 +104,22 @@
     
        window.location.href='/ZendProject/public/category/ajax-job';
     
+    }
+    
+    function lockSystem(){
+    
+       var lockCheck = document.getElementById("lock");
+       lockCheck.style.display="block";
+    }
+    function  getCheckBoxValue(){
+       var checkBox = document.getElementById("checkBox");
+       if(checkBox.checked){
+           //alert("true");
+           window.location.href="/ZendProject/public/user/profile/lock/true";
+       }else{
+           //alert("false");
+           window.location.href="/ZendProject/public/user/profile/lock/false";
+       }
     }
     
     function notification(message,color){

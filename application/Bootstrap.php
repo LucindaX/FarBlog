@@ -17,11 +17,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
        $session->setExpirationSeconds("3600");
    }
    
+   public function _initLockSystem(){
+        $lockSystem = $this->getOption('lockSystem');
+        Zend_Registry::set('lockSystem', "off");
+       /*$this->bootstrap("frontController");
+       $front = $this->getResource('FrontController');
+       $front->setParam('lockSystem', "off");*/
+}
+
    
-  
-
-
- 
 
 }
 
