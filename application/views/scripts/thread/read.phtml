@@ -25,19 +25,27 @@
                          </form> 
                        
                     </div>
+                                                 <div>
+                       <?php echo $this->paginationControl($this->paginator,
+    'Sliding','my_pagination_control.phtml'); ?> 
+                        
+                    </div>
                     
                     </div>
                  
                 </div>
 </div>
 <script>
+    var page = <?php if(isset($this->page)) echo $this->page;?>;
+    console.log("page  number "+page);
      var mythread = <?= $this->thread_id?>;
-     window.onload= getPost(<?php echo $this->thread_id?>);
+     window.onload= function() {getPost(<?php echo $this->thread_id?>);getReplies();};
      var x;
-      
+     <?php if(isset($this->user_id)) echo"var user_id=$this->user_id;"; else echo "user_id=null;";?>
+
       function getPost(thread_id){
               
-       $.getJSON("/ZendProject/public/thread/read/threadId/"+thread_id , function(data,status){
+       $.getJSON("/ZendProject/public/thread/read/threadId/"+thread_id+"/thread/yes" , function(data,status){
             console.log(data);
          x=data;
          threadDiv = document.getElementById("thread");
@@ -46,37 +54,55 @@
          repliesDiv=document.getElementById("replies");
          repliesDiv.innerHTML="";
          
-         titleDiv.innerHTML="Thread : "+data.thread[0].title;   
+         titleDiv.innerHTML="Thread : "+data[0].title;   
         
          
          var color= "#B2AFAF";
          
-          if(data.thread[0].location == null) data.thread[0].location="";
-            if(data.thread[0].image == null) data.thread[0].image="/ZendProject/public/images/default.png";
+          if(data[0].location == null) data[0].location="";
+            if(data[0].image == null) data[0].image="/ZendProject/public/images/default.png";
             
-         var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style='position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data.thread[0].date+"\n\
-                   <br><br><img style='display:inline-block; margin-right:20px;' src='"+data.thread[0].image+"' width=100px height=100px>\n\
-                    "+data.thread[0].username+"<div id='panel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"opthread('edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"opthread('delete);\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
-                    <li>join date : "+data.thread[0].date_joined+"</li>\n\
-                    <li>location  : "+data.thread[0].location+"</li>\n\
+         var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style='position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data[0].date+"\n\
+                   <br><br><img style='display:inline-block; margin-right:20px;' src='"+data[0].image+"' width=100px height=100px>\n\
+                    "+data[0].username+"<div id='panel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"opthread('edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"opthread('delete);\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
+                    <li>join date : "+data[0].date_joined+"</li>\n\
+                    <li>location  : "+data[0].location+"</li>\n\
                     <li>Posts     :  empty for now </li></ul>\n\
                     </div>\n\
-                     <div id='title' style='margin-top:5px;'>"+data.thread[0].title+"</div>\n\
-                      <hr><div id='body'><br><p>"+data.thread[0].body+"</p></div>\n\
-                        <div id='end' style='margin-top:30px;min-height:20px; border-radius:2px; background:#3B5999; color:white;'><a style='color:white; margin-left:700px;' onclick=\"reply("+data.thread[0].id+")\">Reply</a>&nbsp&nbsp&nbsp<a style='color:white;' href=''>Reply with quote</a></div>\n\
+                     <div id='title' style='margin-top:5px;'>"+data[0].title+"</div>\n\
+                      <hr><div id='body'><br><p>"+data[0].body+"</p></div>\n\
+                        <div id='end' style='margin-top:30px;min-height:20px; border-radius:2px; background:#3B5999; color:white;'><a style='color:white; margin-left:700px;' onclick=\"reply("+data[0].id+")\">Reply</a>&nbsp&nbsp&nbsp<a style='color:white;' href=''>Reply with quote</a></div>\n\
                         ";
         
         threadDiv.innerHTML=body;    
-          color ="#D2CECE";
+        
+        
+        /*  color ="#D2CECE";
           for (var i=0;i< data.replies.length;i++){
+              
               
             var mydiv = document.createElement('div');
             mydiv.className="replyy";
             
             if(data.replies[i].location == null) data.replies[i].location="";
             if(data.replies[i].image == null) data.replies[i].image="/ZendProject/public/images/default.png";
-            
-            
+                
+                if(user_id == data.replies[i].user_id)
+                    
+                     var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style=' position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data.replies[0].date+"\n\
+                   <br><br><img style='display:inline-block; margin-right:20px;' src='"+data.replies[i].image+"' width=100px height=100px>\n\
+                    "+data.replies[i].username+"<div id='mypanel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"mypost("+data.replies[i].id+",'edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"mypost("+data.replies[i].id+",'delete');\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
+                    <li>join date : "+data.replies[i].date_joined+"</li>\n\
+                    <li>location  : "+data.replies[i].location+"</li>\n\
+                    <li>Posts     :  empty for now </li></ul>\n\
+                    </div>\n\
+                     <div id='title' style='margin-top:5px;'>RE:"+data.thread[0].title+"</div>\n\
+                      <hr><div id='body'><br><p>"+data.replies[i].title+"</p></div>\n\
+                        <div id='end' style='margin-top:30px;min-height:20px; border-radius:2px; background:#3B5999; color:white;'><a style='color:white; margin-left:700px;' onclick=\"reply("+data.thread[0].id+")\">Reply</a>&nbsp&nbsp&nbsp<a style='color:white;' href=''>Reply with quote</a></div>";
+                        
+                    
+                    
+                    else 
                var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style=' position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data.replies[0].date+"\n\
                    <br><br><img style='display:inline-block; margin-right:20px;' src='"+data.replies[i].image+"' width=100px height=100px>\n\
                     "+data.replies[i].username+"<div id='panel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"rpthread("+data.replies[i].id+",'edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"rpthread("+data.replies[i].id+",'delete');\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
@@ -98,7 +124,7 @@
             
               
               
-          }    
+          }*/    
           
           
           
@@ -108,17 +134,87 @@
           
         });
     }
+    function getReplies(){
+       repliesDiv=document.getElementById("replies");
+         repliesDiv.innerHTML="";
+         var color;
+         console.log("replies");
+         
+    $.getJSON("/ZendProject/public/thread/read/threadId/"+mythread+"/page/"+page+"/reply/yes" , function(data,status){
+           console.log(data);
+         x=data;
+       color ="#D2CECE";
+       
+          for (var i in data){
+              
+              
+            var mydiv = document.createElement('div');
+            mydiv.className="replyy";
+            
+            if(data[i].location == null) data[i].location="";
+            if(data[i].image == null) data[i].image="/ZendProject/public/images/default.png";
+                
+                if(user_id == data[i].user_id)
+                    
+                     var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style=' position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data[i].date+"\n\
+                   <br><br><img style='display:inline-block; margin-right:20px;' src='"+data[i].image+"' width=100px height=100px>\n\
+                    "+data[i].username+"<div id='mypanel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"mypost("+data[i].id+",'edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"mypost("+data[i].id+",'delete');\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
+                    <li>join date : "+data[i].date_joined+"</li>\n\
+                    <li>location  : "+data[i].location+"</li>\n\
+                    <li>Posts     :  empty for now </li></ul>\n\
+                    </div>\n\
+                     <div id='title' style='margin-top:5px;'>RE:"+/*data.thread[0].title*/+"</div>\n\
+                      <hr><div id='body'><br><p>"+data[i].title+"</p></div>\n\
+                        <div id='end' style='margin-top:30px;min-height:20px; border-radius:2px; background:#3B5999; color:white;'><a style='color:white; margin-left:700px;' onclick=\"reply("+/* */+")\">Reply</a>&nbsp&nbsp&nbsp<a style='color:white;' href=''>Reply with quote</a></div>";
+                        
+                    
+                    
+                    else 
+               var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style=' position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data[i].date+"\n\
+                   <br><br><img style='display:inline-block; margin-right:20px;' src='"+data[i].image+"' width=100px height=100px>\n\
+                    "+data[i].username+"<div id='panel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"rpthread("+data[i].id+",'edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"rpthread("+data[i].id+",'delete');\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
+                    <li>join date : "+data[i].date_joined+"</li>\n\
+                    <li>location  : "+data[i].location+"</li>\n\
+                    <li>Posts     :  empty for now </li></ul>\n\
+                    </div>\n\
+                     <div id='title' style='margin-top:5px;'>RE:"+/*data.thread[0].title*/+"</div>\n\
+                      <hr><div id='body'><br><p>"+data[i].title+"</p></div>\n\
+                        <div id='end' style='margin-top:30px;min-height:20px; border-radius:2px; background:#3B5999; color:white;'><a style='color:white; margin-left:700px;' onclick=\"reply()\">Reply</a>&nbsp&nbsp&nbsp<a style='color:white;' href=''>Reply with quote</a></div>";
+                        
+    
+               mydiv.innerHTML=body;
+               
+             repliesDiv.appendChild(mydiv); 
+              
+              if(color == "#D2CECE") color="#B2AFAF";
+              else color = "#D2CECE";
+            
+              
+              
+          }    });
+          }
+          
+          
+    
+    <?php 
+    
+    if(isset($this->account_type)){
+      echo"  function reply(){
     
     
-    function reply(){
-    
-    
-       var form = document.getElementById("form");
-       form.style.display="block";
+       var form = document.getElementById('form');
+       form.style.display='block';
        form.click()
     
-    };
+    };";
+    }
+     else echo "function reply(){ 
+                           
+                            document.getElementById('modal_trigger').click();}";
     
+    if($this->account_type == "admin"){
+
+    echo "
     
     function opthread(operation){
      
@@ -134,24 +230,25 @@
         
     }
     
+    
     function rpthread(reply_id,operation){
         
        if(operation == 'edit'){
          
-         window.location.href="/ZendProject/public/reply/edit/threadId/"+mythread+"/replyId/"+reply_id;
+         window.location.href='/ZendProject/public/reply/edit/threadId/'+mythread+'/replyId/'+reply_id;
          
         }
      else{
          
-         $.get("/ZendProject/public/reply/delete/replyId/"+reply_id,function(data,status){
+         $.get('/ZendProject/public/reply/delete/replyId/'+reply_id,function(data,status){
              
              if(data > 0){
-              notification("Reply deleted","#57E964");
+              notification('Reply deleted','#57E964');
                 getPost(mythread);
                
             }
             
-            else notification("Failed To Delete Reply","#F75D59");
+            else notification('Failed To Delete Reply','#F75D59');
             
              
              
@@ -168,28 +265,28 @@
      $(document).on({
     mouseenter: function () {
     
-    $( '#panel', $( this ) ).css("display","inline-block");
+    $( '#panel', $( this ) ).css('display','inline-block');
  
      
     
     },
     mouseleave: function () {
-         this.style.zIndex="20";
-        $('#panel', $( this ) ).css("display","none");
+         this.style.zIndex='20';
+        $('#panel', $( this ) ).css('display','none');
        
    
          
     }
-},"#userinfo");
+},'#userinfo');
 
 
  function notification(message,color){
     
-     var notify = document.getElementById("notify");
-            notify.style.display="block";
+     var notify = document.getElementById('notify');
+            notify.style.display='block';
             notify.style.background = color;
             notify.innerHTML=message;
-            setTimeout(function(){ notify.style.display="none";},6000);
+            setTimeout(function(){ notify.style.display='none';},6000);
     
     
     }
@@ -197,21 +294,91 @@
  /*$(document).on({
     mouseenter: function () {
     
-    $( '#panel', $( this ) ).css("display","inline-block");
+    $( '#panel', $( this ) ).css('display','inline-block');
  
      
     
     },
     mouseleave: function () {
-         this.style.zIndex="20";
-        $('#panel', $( this ) ).css("display","none");
+         this.style.zIndex='20';
+        $('#panel', $( this ) ).css('display','none');
        
    
          
     }
-},"#thread");
+},'#thread');
     
   */
+    ";}
     
+    if(isset($this->user_id)){
+        
+    echo "   function mypost(reply_id,operation){
+        
+       if(operation == 'edit'){
+         
+         window.location.href='/ZendProject/public/reply/edit/threadId/'+mythread+'/replyId/'+reply_id;
+         
+        }
+     else{
+         
+         $.get('/ZendProject/public/reply/delete/replyId/'+reply_id,function(data,status){
+             
+             if(data > 0){
+              notification('Reply deleted','#57E964');
+                getPost(mythread);
+               
+            }
+            
+            else notification('Failed To Delete Reply','#F75D59');
+            
+             
+             
+         
+            });
+        }
+    }
+        
+        
+    
+    
+    
+    
+     $(document).on({
+    mouseenter: function () {
+    
+    $( '#mypanel', $( this ) ).css('display','inline-block');
+ 
+     
+    
+    },
+    mouseleave: function () {
+         this.style.zIndex='20';
+        $('#mypanel', $( this ) ).css('display','none');
+       
+   
+         
+    }
+},'#userinfo');
+
+
+ function notification(message,color){
+    
+     var notify = document.getElementById('notify');
+            notify.style.display='block';
+            notify.style.background = color;
+            notify.innerHTML=message;
+            setTimeout(function(){ notify.style.display='none';},6000);
+    
+    
+    }   ";    
+        
+        
+        
+        
+        
+    }
+   
+        ?>
     
  </script>   

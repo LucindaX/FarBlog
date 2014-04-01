@@ -44,8 +44,6 @@
           <actionMethod actionName="delete"/>
           <actionMethod actionName="lock"/>
           <actionMethod actionName="unlock"/>
-          <actionMethod actionName="stick"/>
-          <actionMethod actionName="unstick"/>
         </controllerFile>
         <controllerFile controllerName="Reply">
           <actionMethod actionName="index"/>
@@ -164,6 +162,7 @@
           <viewControllerScriptsDirectory forControllerName="Reply">
             <viewScriptFile forActionName="delete"/>
           </viewControllerScriptsDirectory>
+
           <viewControllerScriptsDirectory forControllerName="Thread">
             <viewScriptFile forActionName="delete"/>
           </viewControllerScriptsDirectory>
@@ -172,15 +171,10 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Thread">
             <viewScriptFile forActionName="unlock"/>
-            <viewControllerScriptsDirectory forControllerName="User">
-              <viewScriptFile forActionName="logout"/>
-            </viewControllerScriptsDirectory>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Thread">
-            <viewScriptFile forActionName="stick"/>
-          </viewControllerScriptsDirectory>
-          <viewControllerScriptsDirectory forControllerName="Thread">
-            <viewScriptFile forActionName="unstick"/>
+
+          <viewControllerScriptsDirectory forControllerName="User">
+            <viewScriptFile forActionName="logout"/>
+	</viewControllerScriptsDirectory>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

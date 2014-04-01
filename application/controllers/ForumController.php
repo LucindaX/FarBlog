@@ -10,12 +10,9 @@ class ForumController extends Zend_Controller_Action
     {
         $this->session = new Zend_Session_Namespace("Zend_Auth");
         $authorization = Zend_Auth::getInstance();
+        if(isset($this->session->storage->id)){
         $this->userId = $this->session->storage->id;
         $this->account_type = $this->session->storage->account_type;
-        if(!$authorization->hasIdentity()) {
-            echo "error";
-        }else{
-           // $this->redirect("user/add");
         }
     }
 

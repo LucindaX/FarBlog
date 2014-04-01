@@ -8,14 +8,20 @@
                         <div class="space"></div>
                         <div id="list"></div>
                     </div>
+                    <div>
+                       <?php echo $this->paginationControl($this->paginator,
+    'Sliding','my_pagination_control.phtml'); ?> 
+                        
+                    </div>
                   
 		</div>
 	</div>
 </div>
 <script>
-    
+    var page = <?php if(isset($this->page)) echo $this->page; else echo null?>;
     console.log(<?php echo $this->forum_id ?>);
     var id = <?php echo $this->forum_id ?>;
+    <?php if(isset($this->user_id)) echo"var user_id=$this->user_id;"; else echo "user_id=null;";?>
     window.onload=getThreads(<?php echo $this->forum_id ?>);
     
      function getThreads(id){
@@ -34,7 +40,7 @@
         stickylist.innerHTML="<table class='table table-striped'><tr><thead ><th>Title/Thread Starter</th><th>Views</th><th>Replies</th><th>Latest Post</th></tr></thead><tbody id='tablebody'></tbody></table>";
         var stickybody = $('#tablebody',$('#stickylist'))[0];
         
-       $.getJSON("/ZendProject/public/thread/list/forum_id/"+id , function(data,status){
+       $.getJSON("/ZendProject/public/thread/list/forum_id/"+id+"/page/"+page , function(data,status){
             console.log(data);
             q=data;
        
@@ -44,16 +50,18 @@
             var col="";
             var foo = "lock";
             var stickyimg="";
+            var sticky = "stick";
             
             for(var i in data ){
             
             if(data[i].latestpost.length > 0){
              
-            latestpost = " by >> <a href=''>"+(data[i]["latestpost"][0].username)+"</a><br>"+(data[i].latestpost[0].date);
+            latestpost = " by >> <a href='/ZendProject/public/user/profile/id/"+data[i]["latestpost"][0].id+"'>"+(data[i]["latestpost"][0].username)+"</a><br>"+(data[i].latestpost[0].date);
              
             }
             else
-             latestpost = "No new posts <br> empty Thread";
+            latestpost = " by >> <a href='/ZendProject/public/user/profile/id/"+data[i].userid+"'>"+(data[i].startedBy)+"</a><br>"+(data[i].date);
+
              
              
             if(data[i].locked != null){
@@ -62,19 +70,26 @@
              foo="unlock";
             }
           if(data[i].sticky == "true"){  
-             
+             sticky="unstick";
            stickyimg="<img src='/ZendProject/public/images/sticky.gif' style='display:inline-block; top:2px; margin-right:5px;'/>";
        
             }
             
-          stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"'>"+data[i].name+"</a><br><font size='3'>Started by :"+data[i].startedBy+" "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].id+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
-                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req('delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.title,"+data[i].id+");\"></i></li></ul></td></tr>";          
+            if(data[i].userid == user_id)
+                stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].id+"</td><td>"+latestpost+"</td><td id='mypanel'>"+
+                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"mypost('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"mypost('delete',"+data[i].id+");\"></i></li></ul></td></tr>";          
+        
+                
+            else 
+          stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].id+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
+                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req('delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.title,"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-tag' title='"+sticky+"'  id="+id+" onclick=\"req('"+sticky+"',"+data[i].id+");\"></i></li></ul></td></tr>";          
        
             
             
             col="";
             foo="lock";
             stickyimg="";
+            sticky="stick";
         
         }
         
@@ -88,31 +103,33 @@
     }
     
     
-    
+    <?php if($this->account_type == "admin"){
+        
+    echo"
     function req(operation,threadId){
         
         
        if(operation == 'edit'){
            
-          window.location.href="/ZendProject/public/thread/edit/threadId/"+threadId; 
+          window.location.href='/ZendProject/public/thread/edit/threadId/'+threadId; 
         }
         else{
-       var jqxhr =  $.get("/ZendProject/public/thread/"+operation+"/threadId/"+threadId,
+       var jqxhr =  $.get('/ZendProject/public/thread/'+operation+'/threadId/'+threadId,
         
             function(data){
                 console.log(data);
                if(data > 0){
-                notification("Thread was Successfully "+operation+"ed","#57E964");
+                notification('Thread was Successfully '+operation+'ed','#57E964');
                 getThreads(id);
                 
                  }
-                 else notification("Failed To "+operation+" Thread","#F75D59");
+                 else notification('Failed To '+operation+' Thread','#F75D59');
                 
                 })
    
                 .fail(function(){
                  
-                notification("Failed To "+operation+" Thread","#F75D59");
+                notification('Failed To '+operation+' Thread','#F75D59');
                 
                 
                     });
@@ -128,11 +145,11 @@
     
      function notification(message,color){
     
-     var notify = document.getElementById("notify");
-            notify.style.display="block";
+     var notify = document.getElementById('notify');
+            notify.style.display='block';
             notify.style.background = color;
             notify.innerHTML=message;
-            setTimeout(function(){ notify.style.display="none";},6000);
+            setTimeout(function(){ notify.style.display='none';},6000);
     
     
     }
@@ -142,22 +159,93 @@
       $(document).on({
     mouseenter: function () {
     
-    $( '#editpanel', $( this ) ).css("display","block");
+    $( '#editpanel', $( this ) ).css('display','block');
  
      
     
     },
     mouseleave: function () {
-         this.style.zIndex="20";
-        $('#editpanel', $( this ) ).css("display","none");
+         this.style.zIndex='20';
+        $('#editpanel', $( this ) ).css('display','none');
        
    
          
     }
-},"#tablebody tr");
+},'#tablebody tr');
+    
+    
+    ";}
+    
+    else if(isset($this->user_id)){
+        
+   echo "    $(document).on({
+    mouseenter: function () {
+    
+    $( '#mypanel', $( this ) ).css('display','block');
+ 
+     
+    
+    },
+    mouseleave: function () {
+         this.style.zIndex='20';
+        $('#mypanel', $( this ) ).css('display','none');
+       
+   
+         
+    }
+},'#tablebody tr');    
+        
+  
+function mypost(operation,threadId){
+        
+        
+       if(operation == 'edit'){
+           
+          window.location.href='/ZendProject/public/thread/edit/threadId/'+threadId; 
+        }
+        else{
+       var jqxhr =  $.get('/ZendProject/public/thread/'+operation+'/threadId/'+threadId,
+        
+            function(data){
+                console.log(data);
+               if(data > 0){
+                notification('Thread was Successfully '+operation+'ed','#57E964');
+                getThreads(id);
+                
+                 }
+                 else notification('Failed To '+operation+' Thread','#F75D59');
+                
+                })
+   
+                .fail(function(){
+                 
+                notification('Failed To '+operation+' Thread','#F75D59');
+                
+                
+                    });
+   
+        }
+       
+    }
+
+ function notification(message,color){
+    
+     var notify = document.getElementById('notify');
+            notify.style.display='block';
+            notify.style.background = color;
+            notify.innerHTML=message;
+            setTimeout(function(){ notify.style.display='none';},6000);
+    
+    
+    }
+
+
+
+    ";}
     
     
     
+    ?>
     
     
     

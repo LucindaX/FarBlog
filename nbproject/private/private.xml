@@ -7,7 +7,6 @@
             <file>file:/var/www/ZendProject/application/forms/Thread.php</file>
             <file>file:/var/www/ZendProject/application/controllers/ReplyController.php</file>
             <file>file:/var/www/ZendProject/tests/phpunit.xml</file>
-            <file>file:/var/www/ZendProject/library/Zend/Tool/Project/Profile/FileParser/Xml.php</file>
             <file>file:/var/www/ZendProject/application/views/scripts/user/admin-tools.phtml</file>
             <file>file:/var/www/ZendProject/application/views/scripts/reply/add.phtml</file>
             <file>file:/var/www/ZendProject/application/controllers/CategoryController.php</file>
@@ -25,9 +24,11 @@
             <file>file:/var/www/ZendProject/application/controllers/ForumController.php</file>
             <file>file:/var/www/ZendProject/application/layouts/scripts/layout.phtml</file>
             <file>file:/var/www/ZendProject/application/forms/Forum.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/my_pagination_control.phtml</file>
             <file>file:/var/www/ZendProject/application/models/User.php</file>
             <file>file:/var/www/ZendProject/application/controllers/ThreadController.php</file>
             <file>file:/var/www/ZendProject/application/forms/Reply.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/login.phtml</file>
             <file>file:/var/www/ZendProject/application/configs/application.ini</file>
             <file>file:/var/www/ZendProject/application/controllers/UserController.php</file>
             <file>file:/var/www/ZendProject/application/forms/Userinfo.php</file>
