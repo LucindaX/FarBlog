@@ -244,29 +244,19 @@ class UserController extends Zend_Controller_Action
 
     public function profileAction()
     {
+
         $userModel = new Application_Model_User();
         if($this->hasParam('id')){         
             $userId = $this->_request->getParam('id');
         }else{
             if(isset($this->session->storage->id)){
+
             $userId = $this->session->storage->id;
             }
         }
             $userData = $userModel->getUserById($userId);
             $this->view->userData = $userData;
-            $this->view->lock = $this->lockSystem;
-       /* if ($this->hasParam("lock")) {
-           $check = $this->_request->getParam("lock");
-           if($check == "true"){
-               Zend_Registry::set('lockSystem', "on");
-           }
-           else if($check == "false"){
-               Zend_Registry::set('lockSystem', "off");
-           }
-        }
-        $this->lockSystem = Zend_Registry::get('lockSystem');
-        $this->view->lock = $this->lockSystem;*/
-    
+ 
     }
 
     public function logoutAction()
