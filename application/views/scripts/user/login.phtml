@@ -10,7 +10,25 @@
                             </script>";
                 }
                 
+              
+               if(!strcmp($this->error,'ban')){
+            echo "<script> 
+                window.onload=function (){document.getElementById('signincheck').innerHTML='User is Banned';
+                           
+                            document.getElementById('modal_trigger').click();}
+                            </script>";
+                }
+                
+                
+                  if(!strcmp($this->error,'online')){
+            echo "<script> 
+                window.onload=function (){document.getElementById('signincheck').innerHTML='User is Already Logged in';
+                           
+                            document.getElementById('modal_trigger').click();}
+                            </script>";
+                }
            
+            
                 
                 
                  else if($this->error == 'signup'){
@@ -24,26 +42,6 @@
                 
 
                 
-                    }
-    
-    echo $this->lock["status"]; 
-    echo $this->id;
-    echo $this->acc;
-    echo $this->status;
-    $userInfo = new Zend_Session_Namespace('Zend_Auth');
-    echo $userInfo->storage->id;
-    echo $userInfo->storage->account_type;
-    echo $userInfo->storage->status;
-echo $this->error;
-echo $this->id2;
-echo strcmp($this->status, 'banned')."hiiiiiiiiiiiiiii";
-if(strcmp($this->status,"banned")== 0){
-
-            echo "<script> 
-                window.onload=function (){document.getElementById('signincheck').innerHTML='User banned';
-                           
-                            document.getElementById('modal_trigger').click();}
-                            </script>";            
                     }
     
               

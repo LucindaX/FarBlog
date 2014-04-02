@@ -1,7 +1,7 @@
 
 
-<div class="container" style="margin-top: 100px;">
-	<div class="row clearfix">
+
+	<div class="row clearfix" style="margin-top: 100px;">
 		<div class="col-md-12 column" id="<?= $this->thread_id ?>" class="post" >
                     <div id="thread_title" style='height:30px; padding-left:10px; padding-top:5px; border-radius:3px; background:#3B5999; color:white;'>  </div>
                                              <div id="notify" style="display:none; margin:10px; width:40%; border:1px solid; border-radius:2px; height:30px; padding:5px;"></div>
@@ -34,7 +34,6 @@
                     </div>
                  
                 </div>
-</div>
 <script>
     var page = <?php if(isset($this->page)) echo $this->page;?>;
     console.log("page  number "+page);
@@ -43,7 +42,8 @@
      var thread_title;
      <?php if(isset($this->user_id)) echo"var user_id=$this->user_id;"; else echo "user_id=null;";?>
      <?php if(isset($this->locked)) echo"var thread_locked=$this->locked; console.log('thread: '+ thread_locked);"; ?>
-         
+         <?php if(isset($this->account_type)) echo "var account_type='$this->account_type';"; else echo "var account_type=null;";?> 
+ 
       function getPost(thread_id){
               
        $.getJSON("/ZendProject/public/thread/read/threadId/"+thread_id+"/thread/yes" , function(data,status){
@@ -67,10 +67,10 @@
             
          var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style='position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data[0].date+"\n\
                    <br><br><img style='display:inline-block; margin-right:20px;' src='"+data[0].image+"' width=100px height=100px>\n\
-                    <a href='/ZendProject/public/user/profile/"+data[0].id+"'>"+data[0].username+"</a><div id='panel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"opthread('edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"opthread('delete);\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
+                    <a href='/ZendProject/public/user/profile/"+data[0].id+"'>"+data[0].username+"</a><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
                     <li>join date : "+data[0].date_joined+"</li>\n\
                     <li>location  : "+data[0].location+"</li>\n\
-                    <li>Posts     : "+data[0].postscount+" </li></ul>\n\
+                    </ul>\n\
                     </div>\n\
                      <div id='title' style='margin-top:5px;'>"+data[0].title+"</div>\n\
                       <hr><div id='body'><br><p>"+data[0].body+"</p></div>\n\
@@ -105,14 +105,14 @@
             if(data[i].location == null) data[i].location="";
             if(data[i].image == null) data[i].image="/ZendProject/public/images/default.png";
                 
-                if(user_id == data[i].user_id)
+                if(user_id == data[i].user_id && account_type!="admin")
                     
                      var body = "<div id='space' style='height:10px; border-radius:2px;'></div><div id='userinfo' style=' position:relative; padding:10px;  border-radius:5px; background:"+color+"; color:black'>date : "+data[i].date+"\n\
                    <br><br><img style='display:inline-block; margin-right:20px;' src='"+data[i].image+"' width=100px height=100px>\n\
                     <a href='/ZendProject/public/user/profile/"+data[0].user_id+"'>"+data[i].username+"</a><div id='mypanel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"mypost("+data[i].id+",'edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"mypost("+data[i].id+",'delete');\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
                     <li>join date : "+data[i].date_joined+"</li>\n\
                     <li>location  : "+data[i].location+"</li>\n\
-                    <li>Posts     :  empty for now </li></ul>\n\
+                    </ul>\n\
                     </div>\n\
                      <div id='title' style='margin-top:5px;'>RE:"+thread_title+"</div>\n\
                       <hr><div id='body'><br><p>"+data[i].body+"</p></div>\n\
@@ -126,7 +126,7 @@
                      <a href='/ZendProject/public/user/profile/"+data[0].user_id+"'>"+data[i].username+"</a><div id='panel' style='display:none; background:rgba(0,0,0,0.4); color:white; margin-left:220px; position:absolute; top:0px; width:100px;'><ul style='list-style:none;' ><li style='display:inline-block'><i class='glyphicon glyphicon-pencil' title='Edit' onclick=\"rpthread("+data[i].id+",'edit');\"></i></li>&nbsp&nbsp<li style='display:inline-block;'><i class='glyphicon glyphicon-trash' title='Delete' onclick=\"rpthread("+data[i].id+",'delete');\"></i></li></ul></div><div style='display:inline-block; padding:10px; float:right;'><ul style='list-style:none'>\n\
                     <li>join date : "+data[i].date_joined+"</li>\n\
                     <li>location  : "+data[i].location+"</li>\n\
-                    <li>Posts     :  empty for now </li></ul>\n\
+                    </ul>\n\
                     </div>\n\
                      <div id='title' style='margin-top:5px;'>RE:"+thread_title+"</div>\n\
                       <hr><div id='body'><br><p>"+data[i].body+"</p></div>\n\

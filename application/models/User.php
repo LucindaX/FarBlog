@@ -7,7 +7,7 @@ class Application_Model_User extends Zend_Db_Table_Abstract
     
     function addUser($arr){
      
-     $this->insert($arr);
+     return $this->insert($arr);
     
     }
     
@@ -46,6 +46,13 @@ class Application_Model_User extends Zend_Db_Table_Abstract
     
     function changeStatus($status, $userId){
          return $this->update($status, "users.id = $userId");
+    }
+    
+    
+    function changeAccount($type,$id){
+        
+      return $this->update(array("account_type"=>$type),"users.id=$id");  
+        
     }
 
 }

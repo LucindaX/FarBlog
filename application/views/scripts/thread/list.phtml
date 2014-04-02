@@ -1,5 +1,5 @@
-<div class="container" style="margin-top: 100px;">
-	<div class="row clearfix">
+
+	<div class="row clearfix" style="margin-top: 100px;">
 		<div class="col-md-12 column" id="<?= $this->forum_id ?>" class="threads" >
                     <div class="notification" id="notify"></div>
                     <div class="cat"><p style='display:inline-block;' class='cat_title'><?= $this->forum_name ?></p></div>
@@ -16,13 +16,15 @@
                   
 		</div>
 	</div>
-</div>
+
 <script>
     var page = <?php if(isset($this->page)) echo $this->page; else echo null?>;
     console.log(<?php echo $this->forum_id ?>);
     var id = <?php echo $this->forum_id ?>;
-    <?php if(isset($this->user_id)) echo"var user_id=$this->user_id;"; else echo "user_id=null;";?>
+    <?php if(isset($this->user_id)) echo"var user_id=$this->user_id;"; else echo "var user_id=null;";?>
     window.onload=getThreads(<?php echo $this->forum_id ?>);
+    <?php if(isset($this->account_type)) echo "var account_type='$this->account_type';"; else echo "var account_type=null;";?> 
+    
     
      function getThreads(id){
          
@@ -75,14 +77,14 @@
        
             }
             
-            if(data[i].userid == user_id)
+            if(data[i].userid == user_id && account_type != "admin")
                 stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"/"+lockedor+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/id/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].replycount[0].replycount+"</td><td>"+latestpost+"</td><td id='mypanel'>"+
                     "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"mypost('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"mypost('delete',"+data[i].id+");\"></i></li></ul></td></tr>";          
         
                 
             else 
           stickycontent+="<tr"+col+" style='position:relative;' id="+data[i].id+"><td>"+stickyimg+"<i class='glyphicon glyphicon-envelope' title='Thread' style='font-size:30px;display:inline-block; margin-right:10px;'></i><div style='display:inline-block;'><a href='/ZendProject/public/thread/read/threadId/"+data[i].id+"/"+lockedor+"'>"+data[i].name+"</a><br><font size='3'>Started by :<a href='/ZendProject/public/user/profile/"+data[i].userid+"'>"+data[i].startedBy+"</a> "+data[i].date+"</font></div></td><td>"+data[i].visits+"</td><td>"+data[i].replycount[0].replycount+"</td><td>"+latestpost+"</td><td id='editpanel'>"+
-                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req('delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-ban-circle' id="+id+" title='"+foo+"' onclick=\"req(this.title,"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-tag' title='"+sticky+"'  id="+id+" onclick=\"req('"+sticky+"',"+data[i].id+");\"></i></li></ul></td></tr>";          
+                    "<ul style='list-style-type:none'><li><i class='glyphicon glyphicon-pencil' title='Edit'  id="+id+" onclick=\"req('edit',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-trash' title='Delete'  id="+id+" onclick=\"req('delete',"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-lock' id="+id+" title='"+foo+"' onclick=\"req(this.title,"+data[i].id+");\"></i></li><li><i class='glyphicon glyphicon-tag' title='"+sticky+"'  id="+id+" onclick=\"req('"+sticky+"',"+data[i].id+");\"></i></li></ul></td></tr>";          
        
             
             

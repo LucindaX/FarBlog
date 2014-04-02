@@ -31,9 +31,9 @@ class UserController extends Zend_Controller_Action
     public function indexAction()
     {
         
-        echo $this->getParam("status");
-    //$url=$this->view->baseUrl();
-     // $this->redirect("/category/ajax-job");
+     echo $this->getParam("status");
+    $url=$this->view->baseUrl();
+     $this->redirect("/category/ajax-job");
     }
 
     public function loginAction()
@@ -65,19 +65,36 @@ class UserController extends Zend_Controller_Action
                     $this->view->acc = $this->accountType;
                     $this->view->status = $status;
                     
+                    if(!strcmp($status,"banned")) {
+                        $this->view->error="ban";
+                        $storage->clear();
+                        ;
+                    }
+                    
+                   else if(!strcmp($status,"online")) {
+                        $this->view->error="online";
+                        $storage->clear();
+                    }
+                    
+                  
+                    
+                   else{
                     $user = new Application_Model_User();
                     $changeStatus = array('status' => 'online');
                     $user->changeStatus($changeStatus, $this->userId);
-                    
+                   }
                     
 
                     $lockStatus = new Application_Model_LockSystem();
                     $lockSys = $lockStatus->getLockStatus();
                     $this->view->lock = $lockSys;
-                    if($lockSys["status"] == "locked" && $this->accountType == "normal"){                      
+                  if($lockSys["status"] == "locked" && $this->accountType == "normal"){                      
 			$this->redirect("/user/logout");
                     }
-                    $this->redirect("/user/login");
+                    
+                    if( strcmp($status,"banned") && strcmp($status,"online"))
+                    $this->redirect("/user/index");
+                   
                     
                 } else
                     $this->view->error = "login";
@@ -107,9 +124,42 @@ class UserController extends Zend_Controller_Action
                       $object = new Application_Model_User();
                       $password = md5($this->_request->getParam("password"));
 
-                      $user = array("username" => $username, "email" => $email, "password" => $password);
-                      $object->addUser($user);
-                      $this->redirect('/user/login');    
+                      $user = array("username" => $username, "email" => $email, "password" => $password,"status"=>"online","date_joined"=>date('Y-m-d H:i:s'));
+                     $user_id = $object->addUser($user);
+                      
+                    
+                     
+                        $auth = Zend_Auth::getInstance();
+                        $storage = $auth->getStorage();
+                     
+                        $this->session->storage->account_type = "normal";
+                        $this->session->storage->id = $user_id;
+                        $this->userId=$user_id;
+                        $this->accountType="normal";
+                        
+                     
+                        
+                      
+                  /*     $smtpHost = 'smtp.gmail.com';
+                      echo $email;
+                    $smtpConf = array(
+                        'auth' => 'login',
+                        'ssl' => 'ssl',
+                        'port' => '465',
+                        'username' => '@gmail',
+                        'password' => 'sarah_148412'
+                       );
+                    $transport = new Zend_Mail_Transport_Smtp($smtpHost, $smtpConf);
+                    $mail   = new Zend_Mail();
+                    $mail->setBodyText('Welcome in our Website.. :)');
+                    $mail->setFrom('Blend Forums.com');
+                    $mail->addTo($email);
+                    $mail->setSubject('Confirmation email');
+                    $mail->send($transport);
+                      
+                    */  
+                      
+                      $this->redirect('/user/index');    
                     
                     
                     
@@ -161,6 +211,17 @@ class UserController extends Zend_Controller_Action
                $lockSystem->lockSystem($status);
            }
            exit;
+        }
+        else if($this->hasParam("account_type")){
+            
+           $account_type=$this->getParam("account_type");
+           $id=$this->getParam("Id");
+           
+           echo $object->changeAccount($account_type,$id); 
+            exit;
+            
+            
+            
         }
     }
 
@@ -261,7 +322,7 @@ class UserController extends Zend_Controller_Action
 
     public function logoutAction()
     {
-        //Zend_Auth::getInstance()->clearIdentity();
+       // Zend_Auth::getInstance()->clearIdentity();
         $user = new Application_Model_User();
         $changeStatus = array('status' => 'offline');
         $user->changeStatus($changeStatus, $this->session->storage->id);

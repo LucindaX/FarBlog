@@ -99,15 +99,19 @@ class Application_Model_Thread extends Zend_Db_Table_Abstract
     
     
        function getThreadById($threadId){
+           //"count(replies.id) as postscount"
         $select = $this->select()
                   ->setIntegrityCheck(false)
-                  ->from("threads as Th",array('Th.id',"Th.name as title","count(replies.id) as postscount","Th.body","Th.date","users.username","users.id","users.date_joined","users.country as location","users.image") )
+                  ->from("threads as Th",array('Th.id',"Th.name as title","Th.body","Th.date","users.username","users.id","users.date_joined","users.country as location","users.image") )
                   ->join("users","Th.user_id=users.id",array())
-                  ->joinLeft("replies","users.id=replies.user_id")
                   ->where("Th.id = $threadId");
                 
         return $this->fetchAll($select)->toArray();
         
+       }
+       
+       function getThread($threadId){
+           return $this->fetchRow("id=$threadId")->toArray();
         
        }
             

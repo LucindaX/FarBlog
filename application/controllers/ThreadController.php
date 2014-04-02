@@ -36,6 +36,7 @@ class ThreadController extends Zend_Controller_Action
             if($this->hasParam("page")) $page=$this->getParam ("page");
            
               else $page=1;
+              
              $threadId=$this->_request->getParam("threadId"); 
            
            
@@ -60,7 +61,6 @@ class ThreadController extends Zend_Controller_Action
             $this->view->page=$page;
             $this->view->form=$form_reply;
             
-            
             if(isset($this->session->storage->id))
             $this->view->account_type= $this->session->storage->account_type;
              }
@@ -82,6 +82,7 @@ class ThreadController extends Zend_Controller_Action
            
             if($this->getRequest()->isGet())
                 $model_threads->updateVisits($threadId);
+             
             
                }
 
@@ -178,7 +179,7 @@ class ThreadController extends Zend_Controller_Action
     {
          $this->view->action = "/thread/edit";
         $threadForm = new Application_Form_Thread();
-        $this->view->form = $threadForm;
+       
         $threadModel = new Application_Model_Thread();
         if ($this->hasParam("threadId")) {
        $threadId = $this->getRequest()->getParam("threadId"); 
@@ -186,7 +187,7 @@ class ThreadController extends Zend_Controller_Action
                
         if ($this->getRequest()->isPost()) {
           
-            $title = $this->getParam("name");           
+            $name = $this->getParam("name");           
             $body = $this->getParam("body");
             $date = date('Y-m-d H:i:s');
 
@@ -194,18 +195,21 @@ class ThreadController extends Zend_Controller_Action
             if(count($checkName)){
                 $this->redirect("/thread/edit"); //---------------
             }*/
-
+            $forum_id=$this->getParam("forum_id");
             $threadData = array(
-                'name' => $title,
-                'body' => $body           
+                'name' => $name,
+                'body' => $body ,
+                'forum_id'=>$forum_id
             );
             $threadModel->editThread($threadData, $threadId);
-            $this->redirect("/thread/list");
+            $this->redirect("/thread/list/forum_id/$forum_id");
         } else {
           
-            $threadData = $threadModel->getThreadById($threadId);
+            $threadData = $threadModel->getThread($threadId);
             $threadForm->populate($threadData);
+            $this->view->form = $threadForm;
             $this->view->threadId=$threadId;
+            $this->view->info=$threadData;
         }
      $this->render('add');    
 
