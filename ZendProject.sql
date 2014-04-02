@@ -27,7 +27,7 @@ CREATE TABLE `categories` (
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'food','Food is great here');
+INSERT INTO `categories` VALUES (1,'food','Food is great here'),(2,'Drinks','Food is great here');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ CREATE TABLE `forums` (
   PRIMARY KEY (`id`),
   KEY `cat_id` (`cat_id`),
   CONSTRAINT `forums_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +92,30 @@ LOCK TABLES `forums_locked` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `lockSystem`
+--
+
+DROP TABLE IF EXISTS `lockSystem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lockSystem` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` enum('locked','unlocked') DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lockSystem`
+--
+
+LOCK TABLES `lockSystem` WRITE;
+/*!40000 ALTER TABLE `lockSystem` DISABLE KEYS */;
+INSERT INTO `lockSystem` VALUES (1,'unlocked');
+/*!40000 ALTER TABLE `lockSystem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `replies`
 --
 
@@ -109,7 +133,7 @@ CREATE TABLE `replies` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `replies_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +142,7 @@ CREATE TABLE `replies` (
 
 LOCK TABLES `replies` WRITE;
 /*!40000 ALTER TABLE `replies` DISABLE KEYS */;
+INSERT INTO `replies` VALUES (3,14,'2014-04-01 04:15:38','helllo',3),(4,14,'2014-04-01 04:15:38','sadasdas',3),(7,14,'2014-04-01 04:15:40','sadasdas',3),(9,14,'2014-04-01 04:15:41','sadasdas',3),(10,14,'2014-04-01 04:15:42','sadasdas',3),(11,14,'2014-04-01 04:15:42','sadasdas',3),(12,14,'2014-04-01 04:15:42','sadasdas',3),(13,14,'2014-04-01 04:15:43','sadasdas',3),(14,14,'2014-04-01 04:15:43','sadasdas',3),(15,10,'2014-04-02 17:43:50','i am an idiot',6),(16,17,'2014-04-02 17:52:30','Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\r\n',4);
 /*!40000 ALTER TABLE `replies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +167,7 @@ CREATE TABLE `threads` (
   KEY `forum_id` (`forum_id`),
   CONSTRAINT `threads_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `threads_ibfk_2` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,6 +176,7 @@ CREATE TABLE `threads` (
 
 LOCK TABLES `threads` WRITE;
 /*!40000 ALTER TABLE `threads` DISABLE KEYS */;
+INSERT INTO `threads` VALUES (3,'How to Clean your bed in the morining','i wanted to ask how can somebody help me best way to clean my bed?',14,29,'2014-03-30 17:26:25','true',122),(4,'Why have fun','i don\'t know',10,6,'2014-04-02 17:08:44','false',8),(5,'addd','dsakldlkas',10,29,'2014-04-02 17:11:53','false',4),(6,'salma','sadalsda',10,6,'2014-04-02 17:31:12','false',16);
 /*!40000 ALTER TABLE `threads` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,10 +223,11 @@ CREATE TABLE `users` (
   `image` text,
   `signature` text,
   `status` varchar(15) NOT NULL DEFAULT 'offline',
+  `date_joined` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,7 +236,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (10,NULL,NULL,'NoWayHome','kolaw@poka.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned'),(13,NULL,NULL,'Jonny','lilian@gmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned'),(14,NULL,NULL,'Karva5l','lilian@samba.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline'),(15,NULL,NULL,'Sabotoor','lilian@ko.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned'),(16,NULL,NULL,'silky','lilian@popo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned');
+INSERT INTO `users` VALUES (10,NULL,NULL,'NoWayHome','kolaw@poka.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-03-30'),(13,NULL,NULL,'Jonny','lilian@gmail.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(14,NULL,NULL,'Karva5l','lilian@samba.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(15,NULL,NULL,'Sabotoor','lilian@ko.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(16,NULL,NULL,'silky','lilian@popo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-03-30'),(17,NULL,NULL,'Aly','sadasdas@yahoo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','0000-00-00'),(18,NULL,NULL,'salma','ui@yahoo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'online','0000-00-00'),(19,'Metwaly','Karioke','karim','dde@yahoo.com','1234','admin','m','Nauru',NULL,NULL,'offline','0000-00-00'),(20,NULL,NULL,'sa3eed','momoza_contra@hotmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-04-02'),(22,NULL,NULL,'jack','ahmed.sa3eed_azrk@hotmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'online','2014-04-02');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,4 +272,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-30  2:11:48
+-- Dump completed on 2014-04-02 20:04:06
