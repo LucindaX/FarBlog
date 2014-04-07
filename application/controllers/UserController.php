@@ -139,15 +139,15 @@ class UserController extends Zend_Controller_Action
                         
                      
                         
-                      
-                  /*     $smtpHost = 'smtp.gmail.com';
+                 /*     
+                      $smtpHost = 'smtp.mail.yahoo.com';
                       echo $email;
                     $smtpConf = array(
                         'auth' => 'login',
                         'ssl' => 'ssl',
                         'port' => '465',
-                        'username' => '@gmail',
-                        'password' => 'sarah_148412'
+                        'username' => '',  
+                        'password' => ''
                        );
                     $transport = new Zend_Mail_Transport_Smtp($smtpHost, $smtpConf);
                     $mail   = new Zend_Mail();
@@ -156,8 +156,8 @@ class UserController extends Zend_Controller_Action
                     $mail->addTo($email);
                     $mail->setSubject('Confirmation email');
                     $mail->send($transport);
+                   */   
                       
-                    */  
                       
                       $this->redirect('/user/index');    
                     

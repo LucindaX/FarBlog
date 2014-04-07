@@ -9,7 +9,7 @@ class Application_Model_Category extends Zend_Db_Table_Abstract
     }
     
     function deleteCateg($categId){
-       return  $this->dele("categories.id = $categId");
+       return  $this->delete("categories.id = $categId");
     }
     
     function addCateg($name, $desc){

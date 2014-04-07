@@ -27,7 +27,7 @@ CREATE TABLE `categories` (
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'food','Food is great here'),(2,'Drinks','Food is great here');
+INSERT INTO `categories` VALUES (3,'Linux based Questions','forums to ask about difficult matters'),(4,'Embedded Systems','A discussion about electronics'),(5,'Apple Support','Technical difficulties with Apple products');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ CREATE TABLE `forums` (
   PRIMARY KEY (`id`),
   KEY `cat_id` (`cat_id`),
   CONSTRAINT `forums_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `forums` (
 
 LOCK TABLES `forums` WRITE;
 /*!40000 ALTER TABLE `forums` DISABLE KEYS */;
-INSERT INTO `forums` VALUES (6,'Unix and Linux Questions','This forum is for answering Linux and Unix based questions',1),(28,'Unix and Linux Questions','This forum is for answering Linux and Unix based questions',1),(29,'blabla','helloojhgjghjgjhghjgj',1);
+INSERT INTO `forums` VALUES (30,'Shell Scripting','Shell scripting questions',3),(31,'AWK programming','disscussions about awk programming',3),(32,'Perl and bash scripting','perl and bash scripting',3),(33,'Arduino Analysis','Arduino Analysis',4),(34,'Segate platforms divisions','programming segate material to flash',4),(35,'electronic modeling','modeling symbols to aircrafts',4),(36,'Apple store technicals','problems with apple store',5),(37,'Updates','handling updates to phone',5);
 /*!40000 ALTER TABLE `forums` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +133,7 @@ CREATE TABLE `replies` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `replies_ibfk_1` FOREIGN KEY (`thread_id`) REFERENCES `threads` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `replies_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `replies` (
 
 LOCK TABLES `replies` WRITE;
 /*!40000 ALTER TABLE `replies` DISABLE KEYS */;
-INSERT INTO `replies` VALUES (3,14,'2014-04-01 04:15:38','helllo',3),(4,14,'2014-04-01 04:15:38','sadasdas',3),(7,14,'2014-04-01 04:15:40','sadasdas',3),(9,14,'2014-04-01 04:15:41','sadasdas',3),(10,14,'2014-04-01 04:15:42','sadasdas',3),(11,14,'2014-04-01 04:15:42','sadasdas',3),(12,14,'2014-04-01 04:15:42','sadasdas',3),(13,14,'2014-04-01 04:15:43','sadasdas',3),(14,14,'2014-04-01 04:15:43','sadasdas',3),(15,10,'2014-04-02 17:43:50','i am an idiot',6),(16,17,'2014-04-02 17:52:30','Whyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\r\n',4);
+INSERT INTO `replies` VALUES (17,18,'2014-04-07 16:42:37','the record is as such, i just need something that works theoretically for such, that finds the two instances of ABCD, but extract the `Root` out of ABCD......\r\n\r\n[awk -F, \'(NR==2) {print $3\"ABCXYZ\"}\' portfolio-hierarchy .csv RootABCXYZ ^dg@torpsbe1\\[1mClient_Source/20140403%\r\n\r\n---------- Post updated at 09:45 PM ---------- Previous update was at 09:44 PM ----------\r\n\r\ni mean ABCXYZ',12),(18,18,'2014-04-07 16:43:01','csv (.*)ABCXYZ\r\n\r\nMatch the characters \"csv \" literally\r\nMatch the regular expression below and capture its match into backreference number 1\r\n   Match any single character that is not a line break character\r\n      Between zero and unlimited times, as many times as possible, giving back as needed (greedy)\r\nMatch the characters \"ABCXYZ\" literally\r\n\r\n\r\n$result = preg_replace(\'/csv (.*)ABCXYZ/im\', \'$1\', $subject);',12),(19,18,'2014-04-07 16:43:34','Unfortunately that one is not working..\r\nwhy isn\'t this one working either? Do you see something fundamentally wrong?',12),(20,18,'2014-04-07 16:44:23','awk \'{sub(\"-\",X,$0); sum += $0} END {print sum}\' file',11),(21,18,'2014-04-07 16:44:40','awk \'{sub(\"-\",X,$0); sum += $0} END {printf \"%f\\n\", sum}\' file',11),(22,18,'2014-04-07 16:44:59','The other thing to keep in mind is that awk uses floating point numbers. It\'s not infinite precision. If you print that number to 13 extra decimal places, most of those decimals will be meaningless garbage.\r\n\r\nIf you want a perfect sum, bc should do the job, if you convert the output into something it can use.\r\n\r\n\r\nCode:\r\nawk \'BEGIN { print \"Z = 0;\" } { sub(/-/, \"\"); print \"Z += \",$1,\";\" } END { print \"Z;\" }\' inputfile | bc\r\n\r\nThis prints \"z = 0;\" as the first line, then all lines afterwards as \"z += number;\" And the final line as \"z;\" to print the final sum.',11),(23,18,'2014-04-07 16:45:33','Hi Corona !\r\n\r\nThanks for your guidance and I have used your code like this:\r\n\r\nCode:\r\n \r\n \r\n awk \'BEGIN { print \"Z = 0;\" } { sub(/-/, \"\"); print \"Z += \",$1,\";\" } END { print \"Z;\" }\' asa.txt | bc\r\n\r\nwhere asa.txt has data like:\r\n\r\n\r\nCode:\r\n \r\n21000000\r\n-3000\r\n3000\r\n-670500\r\n2963700\r\n\r\nbut I am getting an error of:\r\n\r\n\r\nCode:\r\n \r\nsyntax error on line 1 stdin\r\n\r\nNeed your help on this !\r\n',11);
 /*!40000 ALTER TABLE `replies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +167,7 @@ CREATE TABLE `threads` (
   KEY `forum_id` (`forum_id`),
   CONSTRAINT `threads_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `threads_ibfk_2` FOREIGN KEY (`forum_id`) REFERENCES `forums` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `threads` (
 
 LOCK TABLES `threads` WRITE;
 /*!40000 ALTER TABLE `threads` DISABLE KEYS */;
-INSERT INTO `threads` VALUES (3,'How to Clean your bed in the morining','i wanted to ask how can somebody help me best way to clean my bed?',14,29,'2014-03-30 17:26:25','true',122),(4,'Why have fun','i don\'t know',10,6,'2014-04-02 17:08:44','false',8),(5,'addd','dsakldlkas',10,29,'2014-04-02 17:11:53','false',4),(6,'salma','sadalsda',10,6,'2014-04-02 17:31:12','false',16);
+INSERT INTO `threads` VALUES (7,'Convert ip ranges to CIDR netblocks','Hi,\r\n\r\nRecently I had to convert a 280K lines of ip ranges to the CIDR notation and generate a file to be used by ipset (netfilter) for ip filtering.\r\n\r\ncode:\r\n-N cidr nethash --maxelem 260000\r\n-N single iphash --maxelem 60000\r\n-A cidr 0.0.0.0/8\r\n-A cidr 1.0.64.0/18\r\n-A single 1.0.245.123\r\n-A cidr 1.2.2.0/24\r\n-A cidr 1.2.4.0/24\r\nCOMMIT',10,30,'2014-04-07 16:35:43','false',1),(8,'Tetris Game -- based on a shell script (new algorithm)','Hi all, i have successfully developed a shell version of the Tetris Game based on a new algorithm few days ago all by myself, below is the link of the source code that i posted at a Linux/Unix forum the first in China:\r\n\r\n[C|Go|C++|Shell based]\r\nOpen Source Project: https://github.com/yongye/shell\r\nScreenShot: http://bbs.chinaunix.net/thread-3614425-1-1.html\r\n\r\nI\'d love to know that someone can be able to optimize my source code and enhance it!\r\nhow to play with it?\r\n\r\nCode:\r\nbash Tetris_Game_Vector_Based.sh [runlevel] [previewlevel] [speedlevel]  [width] [height]\r\n\r\n\r\nI made a copy of my source code below(Tetris_Game_Vector_Based.sh):',10,30,'2014-04-07 16:36:43','false',1),(9,'Csh Programming Considered Harmful','I have noticed a few posts asking questions about c shell scripting these past few days. This a good read for those that currently or are thinking about writing a csh script:\r\n\r\nCsh Programming Considered Harmful',10,30,'2014-04-07 16:37:19','false',1),(10,'Need help in scripting','Hi,\r\n\r\nI have a requirement to write a shell script to judge/identify the records whether the email is good or bad. Below is the pre-requisites client has given\r\n\r\nValid domains for email address acceptable as \"COM,EDU,NET,ORG,INT,GOV,MIL,AERO,BIZ,COOP,INFO,MUSEUM,NAME,PRO\"\r\n\r\nand also need to check the below conditions\r\n\r\na) \'Characters ()<>,;:\\/\"\'\'[] or spaces are not permitted in an email address.\';\r\nb) \'An email address cannot contain control characters or DEL.\';\r\nc) \'An email address cannot begin with the dot or at-symbol.\';\r\nd) \'Names like root, webmaster etc. are unacceptable.\';\r\ne) \'An email address cannot have a dot immediately after the at-symbol . \';\r\n\r\ne.g :- A file contains data as below\r\n\r\n\r\nCode:\r\n1002334|a.neryariel@verizon.net|ARIEL|TELLEZ|9780545546379|1049622|Jeffry|9780545365765|9780545366847|1049641|Alfonso																																								201404\r\n1004888|hogardesilva@gmail.com|MARTIN|SILVA|9780545505994|||||1328346|Emilio\r\n6884268|info@ramonaprivateschools.com|Ellen|Kelly||||||1329346|Rajesh\r\n55852010|myorders@conways.mobi|Yasaswini|konaganti||||||1579326|Ramu\r\n56031277|administrator@leland.k12.mi.us|bharathi|katragadda||||||3429343|Suresh\r\n\r\nBased on the above file, we need to write a script to move the bad email data into a separate file. Seems that the bad emails are as follows.\r\n\r\nbademail data and these will be write it into a separate file.',10,30,'2014-04-07 16:38:31','false',1),(11,'Aggregation of huge data','Hi Friends,\r\n\r\nI have a file with sample amount data as follows:\r\n\r\n\r\nCode:\r\n \r\n -89990.3456\r\n8788798.990000128\r\n55109787.20\r\n-12455558989.90876\r\n\r\nI need to exclude the \'-\' symbol in order to treat all values as an absolute one and then I need to sum up.The record count is around 1 million.\r\n\r\nHow can I perform this ?\r\n\r\nRegards,\r\nRavichander',10,30,'2014-04-07 16:39:07','true',6),(12,'Looking for a perl-compatible regex solution','\r\nThis is for PHP preg_match code - which is PCRE therefore looking for a perl compatible suggestion\r\n\r\nI have this line returned I want to match and return..\r\n\r\n\r\nCode:\r\n[awk -F, \'(NR==2) {print $3\"ABCXYZ\"}\' portfolio-hierarchy .csv  RootABCXYZ ^dg@torpsbe1\\[1mClient_Source/20140403%\r\n\r\nI want to match the two instances of string ending \'ABCXYZ\' into an array.\r\nAnd on second element (ie. RootABCXYZ) only return the word \"Root\"..\r\n\r\nThanks in advance ',10,30,'2014-04-07 16:39:42','true',5);
 /*!40000 ALTER TABLE `threads` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +236,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (10,NULL,NULL,'NoWayHome','kolaw@poka.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-03-30'),(13,NULL,NULL,'Jonny','lilian@gmail.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(14,NULL,NULL,'Karva5l','lilian@samba.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(15,NULL,NULL,'Sabotoor','lilian@ko.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(16,NULL,NULL,'silky','lilian@popo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-03-30'),(17,NULL,NULL,'Aly','sadasdas@yahoo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','0000-00-00'),(18,NULL,NULL,'salma','ui@yahoo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'online','0000-00-00'),(19,'Metwaly','Karioke','karim','dde@yahoo.com','1234','admin','m','Nauru',NULL,NULL,'offline','0000-00-00'),(20,NULL,NULL,'sa3eed','momoza_contra@hotmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-04-02'),(22,NULL,NULL,'jack','ahmed.sa3eed_azrk@hotmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'online','2014-04-02');
+INSERT INTO `users` VALUES (10,NULL,NULL,'NoWayHome','kolaw@poka.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'offline','2014-03-30'),(13,NULL,NULL,'Jonny','lilian@gmail.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(14,NULL,NULL,'Karva5l','lilian@samba.com','81dc9bdb52d04dc20036dbd8313ed055','normal',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(15,NULL,NULL,'Sabotoor','lilian@ko.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'banned','2014-03-30'),(16,NULL,NULL,'silky','lilian@popo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-03-30'),(17,NULL,NULL,'Aly','sadasdas@yahoo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','0000-00-00'),(18,NULL,NULL,'salma','ui@yahoo.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-04-07'),(19,'Metwaly','Karioke','karim','dde@yahoo.com','1234','admin','m','Nauru',NULL,NULL,'offline','0000-00-00'),(20,NULL,NULL,'sa3eed','momoza_contra@hotmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'offline','2014-04-02'),(22,NULL,NULL,'jack','ahmed.sa3eed_azrk@hotmail.com','81dc9bdb52d04dc20036dbd8313ed055','admin',NULL,NULL,NULL,NULL,'online','2014-04-02');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,4 +272,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-02 20:04:06
+-- Dump completed on 2014-04-07 15:47:43

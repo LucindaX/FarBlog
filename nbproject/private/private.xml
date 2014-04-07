@@ -8,6 +8,7 @@
             <file>file:/var/www/ZendProject/application/controllers/ReplyController.php</file>
             <file>file:/var/www/ZendProject/tests/phpunit.xml</file>
             <file>file:/var/www/ZendProject/application/models/LockSystem.php</file>
+            <file>file:/var/www/ZendProject/application/views/scripts/user/logout.phtml</file>
             <file>file:/var/www/ZendProject/application/views/scripts/user/admin-tools.phtml</file>
             <file>file:/var/www/ZendProject/application/views/scripts/reply/add.phtml</file>
             <file>file:/var/www/ZendProject/application/controllers/CategoryController.php</file>

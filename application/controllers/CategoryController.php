@@ -35,10 +35,10 @@ class CategoryController extends Zend_Controller_Action
             $doWhat = $this->getRequest()->getParam("doWhat");
             $categId = $this->getRequest()->getParam("categId");
             if ($doWhat == "selectAll") {
-                $categModel = new Application_Model_Category ();
+                $categModel = new Application_Model_Category();
                return $this->_helper->json->sendJson($categModel->selectAllCategs());
             }else if ($doWhat == "delete") {
-                $categModel = new Application_Model_Category ();
+                $categModel = new Application_Model_Category();
                 return  $categModel->deleteCateg($categId);
                 exit;
             }
